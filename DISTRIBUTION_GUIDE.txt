@@ -1,0 +1,60 @@
+==============================================================
+  POKER CHIP CALCULATOR - DISTRIBUTION GUIDE
+==============================================================
+
+TO SHARE WITH OTHERS FOR TESTING:
+---------------------------------
+
+Send them BOTH of these files in the same folder:
+
+1. PokerChipCalculator.exe  (from the 'dist' folder)
+2. poker chip set counts.txt
+
+IMPORTANT: Both files MUST be in the same directory!
+
+
+FILE STRUCTURE:
+--------------
+TestFolder/
+  ├── PokerChipCalculator.exe
+  └── poker chip set counts.txt
+
+
+WHAT HAPPENS IF .TXT FILE IS MISSING?
+-------------------------------------
+The program will still run, but it will ask the user to manually
+enter all chip denominations and quantities every time they use it.
+
+
+CHIP SET FILE FORMAT:
+--------------------
+poker chip set counts.txt should contain:
+
+300 $1
+200 $5
+200 $25
+200 $100
+50 $500
+50 $1000
+
+(Users can edit this file to match their actual chip set)
+
+
+LATEST VERSION INCLUDES:
+-----------------------
+✅ 2x better stack sizes (smart redistribution)
+✅ Tournament-standard chip allocations
+✅ Improved chip utilization (47% vs old 23%)
+✅ Auto-calculate and custom stack modes
+
+
+HOW TO REBUILD EXECUTABLE (for you):
+------------------------------------
+When you make code changes, rebuild with:
+
+pyinstaller --clean --name="PokerChipCalculator" --onefile pokerchipcounter.py
+
+The new .exe will be in the 'dist' folder.
+
+
+==============================================================

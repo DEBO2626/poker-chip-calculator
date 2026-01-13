@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Professional poker chip distribution calculator for tournament organizers">
+    <meta name="theme-color" content="#1a472a">
+
+    <title>Poker Chip Calculator</title>
+
+    <!-- PWA Manifest (will add in Phase 5) -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/styles.css?v=2.2">
+
+    <!-- App Icon -->
+    <link rel="icon" type="image/png" href="/assets/app-icon.png">
+
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Poker Calc">
+    <link rel="apple-touch-icon" href="/assets/app-icon.png">
+    <link rel="apple-touch-startup-image" href="/assets/app-icon.png">
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-banner">
+            <img src="/assets/header-banner.png?v=2.2" alt="Professional Poker Tournament" class="banner-image">
+            <div class="header-overlay">
+                <div class="header-chips">
+                    <img src="/assets/chip-5-red.png?v=2.2" alt="$5 Chip" class="chip-graphic chip-left">
+                    <img src="/assets/chip-100-black.png?v=2.2" alt="$100 Chip" class="chip-graphic chip-right">
+                </div>
+                <h1 class="logo">♠ Poker Chip Calculator ♣</h1>
+                <p class="tagline">Professional Tournament Setup</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MODE SELECTION SCREEN ===== -->
+    <div id="mode-selection" class="screen active">
+        <div class="container">
+            <h2 class="screen-title">Choose Calculator Mode</h2>
+
+            <div class="mode-cards">
+                <!-- Mode 1: Auto-Calculate -->
+                <button class="mode-card" onclick="selectMode('auto')">
+                    <div class="mode-icon-stack">
+                        <img src="/assets/chip-25-green.png?v=2.2" alt="Green Chip" class="mode-chip chip-bottom">
+                        <img src="/assets/chip-25-green.png?v=2.2" alt="Green Chip" class="mode-chip chip-middle">
+                        <img src="/assets/chip-25-green.png?v=2.2" alt="Green Chip" class="mode-chip chip-top">
+                    </div>
+                    <h3>Auto-Calculate</h3>
+                    <p>Based on tournament duration and blind structure</p>
+                    <span class="mode-badge recommended">Entry Tier</span>
+                </button>
+
+                <!-- Mode 2: Custom Stack -->
+                <button class="mode-card" onclick="selectMode('custom')">
+                    <div class="mode-icon-stack premium-stack">
+                        <img src="/assets/chip-500-purple.png?v=2.2" alt="Purple Chip" class="mode-chip chip-bottom">
+                        <img src="/assets/chip-500-purple.png?v=2.2" alt="Purple Chip" class="mode-chip chip-middle">
+                        <img src="/assets/chip-500-purple.png?v=2.2" alt="Purple Chip" class="mode-chip chip-top">
+                    </div>
+                    <h3>Custom Stack</h3>
+                    <p>Specify exact stack amount</p>
+                    <span class="mode-badge premium">Premium</span>
+                </button>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Entry ($0.99):</strong> Auto-calculate mode with default chip set</p>
+                <p><strong>Premium (+$2.99):</strong> Custom stacks + save chip sets + export</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODE 1: AUTO-CALCULATE SCREEN ===== -->
+    <div id="auto-screen" class="screen">
+        <div class="container">
+            <button class="back-btn" onclick="backToModeSelection()">&#8592; Back</button>
+
+            <h2 class="screen-title">Auto-Calculate Tournament</h2>
+
+            <form id="auto-form" class="input-form">
+                <!-- Number of Players -->
+                <div class="form-group">
+                    <label for="auto-players">Number of Players</label>
+                    <input type="number" id="auto-players" name="players"
+                           min="5" max="15" value="8" required>
+                    <span class="helper-text">5-15 players recommended</span>
+                </div>
+
+                <!-- Starting Blinds -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="auto-sb">Small Blind</label>
+                        <input type="number" id="auto-sb" name="small_blind"
+                               min="1" value="25" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="auto-bb">Big Blind</label>
+                        <input type="number" id="auto-bb" name="big_blind"
+                               min="1" value="50" required>
+                    </div>
+                </div>
+
+                <!-- Tournament Duration -->
+                <div class="form-group">
+                    <label for="auto-duration">Tournament Duration (hours)</label>
+                    <input type="number" id="auto-duration" name="duration"
+                           min="2" max="8" step="0.5" value="4" required>
+                    <span class="helper-text">Typical: 4-6 hours</span>
+                </div>
+
+                <!-- Blind Level Timing -->
+                <div class="form-group">
+                    <label for="auto-minutes">Minutes Per Blind Level</label>
+                    <input type="number" id="auto-minutes" name="minutes"
+                           min="10" max="30" value="15" required>
+                    <span class="helper-text">Typical: 15-20 minutes</span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-primary btn-large">
+                    Calculate Distribution
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== MODE 2: CUSTOM STACK SCREEN ===== -->
+    <div id="custom-screen" class="screen">
+        <div class="container">
+            <button class="back-btn" onclick="backToModeSelection()">&#8592; Back</button>
+
+            <h2 class="screen-title">Custom Stack Amount</h2>
+
+            <!-- Premium Lock -->
+            <div id="premium-lock" class="premium-lock">
+                <div class="lock-icon">&#128274;</div>
+                <h3>Premium Feature</h3>
+                <p>Unlock custom stack mode, save chip sets, and export features</p>
+                <button class="btn-primary btn-large" onclick="showUnlockDialog()">
+                    Upgrade to Premium - $2.99
+                </button>
+                <div class="license-entry">
+                    <p class="small-text">Already purchased?</p>
+                    <input type="text" id="license-key-input" placeholder="Enter license key">
+                    <button class="btn-secondary" onclick="activateLicense()">Activate</button>
+                </div>
+            </div>
+
+            <!-- Custom Form (hidden until premium) -->
+            <form id="custom-form" class="input-form" style="display: none;">
+                <div class="form-group">
+                    <label for="custom-players">Number of Players</label>
+                    <input type="number" id="custom-players" name="players"
+                           min="5" max="15" value="10" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="custom-sb">Small Blind</label>
+                        <input type="number" id="custom-sb" name="small_blind"
+                               min="1" value="25" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="custom-bb">Big Blind</label>
+                        <input type="number" id="custom-bb" name="big_blind"
+                               min="1" value="50" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="custom-stack">Target Stack Per Player</label>
+                    <input type="number" id="custom-stack" name="target_stack"
+                           min="1000" max="20000" step="100" value="8500" required>
+                    <span class="helper-text">Enter desired stack amount</span>
+                </div>
+
+                <button type="submit" class="btn-primary btn-large">
+                    Calculate Distribution
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== CHIPSET SELECTION SCREEN ===== -->
+    <div id="chipset-select-screen" class="screen">
+        <div class="container">
+            <button class="back-btn" onclick="backToModeSelection()">&#8592; Back</button>
+
+            <h2 class="screen-title">Select Chip Set</h2>
+
+            <div id="chipset-list">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <button class="btn-primary btn-large" onclick="showChipsetCreate()">
+                + Create New Chip Set
+            </button>
+
+            <div style="margin-top: var(--spacing-md);">
+                <button class="btn-secondary" id="use-chipset-btn" onclick="useSelectedChipset()" disabled>
+                    Use Selected Chip Set
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CHIPSET CREATE/EDIT SCREEN ===== -->
+    <div id="chipset-create-screen" class="screen">
+        <div class="container">
+            <button class="back-btn" onclick="backToChipsetSelect()">&#8592; Back</button>
+
+            <h2 class="screen-title" id="chipset-create-title">Create Chip Set</h2>
+
+            <form id="chipset-form" class="input-form">
+                <div class="form-group">
+                    <label for="chipset-name">Chip Set Name</label>
+                    <input type="text" id="chipset-name" placeholder="e.g., My Home Set" required>
+                    <span class="helper-text">Give your chip set a memorable name</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Chip Denominations & Quantities</label>
+                    <div id="chip-denominations">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="addDenomination()">
+                        + Add Denomination
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="set-default-chipset">
+                        Set as default chip set
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary btn-large">
+                    Save Chip Set
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== RESULTS SCREEN ===== -->
+    <div id="results-screen" class="screen">
+        <div class="container">
+            <button class="back-btn" onclick="backToModeSelection()">&#8592; New Calculation</button>
+
+            <h2 class="screen-title">Chip Distribution</h2>
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Calculating optimal distribution...</p>
+            </div>
+
+            <!-- Error Display -->
+            <div id="error" class="error-box" style="display: none;"></div>
+
+            <!-- Results Display -->
+            <div id="results-content" style="display: none;">
+                <!-- Stack Summary -->
+                <div class="results-summary">
+                    <div class="summary-card">
+                        <div class="summary-label">Stack Per Player</div>
+                        <div class="summary-value" id="result-stack">$0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Starting Big Blinds</div>
+                        <div class="summary-value" id="result-bb">0 BB</div>
+                    </div>
+                </div>
+
+                <!-- Auto-Adjust Notice -->
+                <div id="adjust-notice" class="info-box" style="display: none;">
+                    <strong>Auto-Adjusted:</strong>
+                    <span id="adjust-message"></span>
+                </div>
+
+                <!-- Chip Distribution Table -->
+                <div class="distribution-table">
+                    <h3>Each Player Receives:</h3>
+                    <table id="distribution-breakdown">
+                        <!-- Populated by JavaScript -->
+                    </table>
+                </div>
+
+                <!-- Inventory Check -->
+                <div id="inventory-status" class="success-box">
+                    All chips fit within available inventory!
+                </div>
+
+                <!-- Actions -->
+                <div class="results-actions">
+                    <button class="btn-secondary" onclick="backToModeSelection()">
+                        New Calculation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== UNLOCK DIALOG (Modal) ===== -->
+    <div id="unlock-dialog" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeUnlockDialog()">&times;</button>
+            <h2>Unlock Premium Features</h2>
+            <div class="premium-features">
+                <p><strong>Get access to:</strong></p>
+                <ul>
+                    <li>Custom stack calculator</li>
+                    <li>Save multiple chip sets</li>
+                    <li>Export & print distributions</li>
+                    <li>Priority support</li>
+                </ul>
+                <p class="price">Upgrade: $2.99</p>
+                <p class="small-text" style="margin-bottom: 1rem;">(Entry tier: $0.99 | Total: $3.98)</p>
+            </div>
+            <a href="https://gumroad.com/l/poker-calc-premium" target="_blank" class="btn-primary btn-large">
+                Purchase Premium on Gumroad
+            </a>
+            <p class="small-text">Instant delivery of license key via email</p>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>&copy; 2026 Poker Chip Calculator v2.1</p>
+        <p class="small-text">Professional tournament setup made easy</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="/app.js?v=2.2"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('[PWA] Service Worker registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('[PWA] Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
