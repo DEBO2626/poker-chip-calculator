@@ -317,8 +317,8 @@ async function activateLicense() {
             // Close dialog
             closeUnlockDialog();
 
-            // Refresh premium status
-            checkPremiumStatus();
+            // Reload page to show unlocked features
+            location.reload();
         } else {
             // Try Premium tier
             const premiumResponse = await fetch(`${API_BASE_URL}/api/verify-license`, {
@@ -347,8 +347,8 @@ async function activateLicense() {
                 // Close dialog
                 closeUnlockDialog();
 
-                // Refresh premium status
-                checkPremiumStatus();
+                // Reload page to show unlocked features
+                location.reload();
             } else {
                 // Invalid license for both tiers
                 alert(`❌ Invalid license key\n\n${data.error || premiumData.error || 'Please check your key and try again.'}`);
