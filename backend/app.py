@@ -343,8 +343,10 @@ if __name__ == '__main__':
     print("="*60 + "\n")
 
     # Run the Flask development server
+    # Use PORT from environment (for Render.com) or default to 5000 for local dev
+    port = int(os.environ.get('PORT', 5000))
     app.run(
         host='0.0.0.0',  # Listen on all network interfaces
-        port=5000,
-        debug=True  # Enable debug mode for development
+        port=port,
+        debug=False  # Disable debug mode in production
     )
