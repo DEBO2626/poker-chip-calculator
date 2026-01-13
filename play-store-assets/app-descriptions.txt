@@ -1,0 +1,103 @@
+===========================================
+GOOGLE PLAY STORE - APP LISTING CONTENT
+===========================================
+
+APP NAME:
+Poker Chip Calculator
+
+SHORT DESCRIPTION (80 characters max):
+Professional poker chip distribution calculator for tournament organizers
+
+FULL DESCRIPTION (4000 characters max):
+===========================================
+
+Host the perfect poker tournament with the Poker Chip Calculator - the professional tool for calculating optimal chip distributions based on your player count, tournament duration, and available chip inventory.
+
+FEATURES:
+
+AUTO-CALCULATE MODE
+Simply enter your tournament details and let the app calculate the perfect chip distribution:
+- Number of players
+- Tournament duration
+- Available chip inventory
+- Instant optimal distribution results
+
+CUSTOM STACK MODE (Premium)
+Full control over your tournament setup:
+- Define custom starting stacks
+- Save multiple chipset configurations
+- Export and print distributions
+- Perfect for recurring tournaments
+
+SMART CALCULATIONS
+- Optimizes chip usage across all denominations
+- Ensures fair distribution for all players
+- Validates against available inventory
+- Professional tournament-grade algorithms
+
+MOBILE-FIRST DESIGN
+- Works offline after first load
+- Install to home screen
+- Fast and responsive
+- Clean, intuitive interface
+
+PERFECT FOR:
+- Home game hosts
+- Tournament organizers
+- Poker clubs
+- Casino staff
+- Card room managers
+
+PRICING:
+Entry Tier ($0.99) - Auto-Calculate mode
+Premium ($2.99) - Full features including Custom Stack mode and chipset management
+
+Download now and take the guesswork out of poker tournament planning!
+
+===========================================
+
+CATEGORY:
+Games > Card
+
+TAGS / KEYWORDS:
+poker, chip calculator, tournament, poker chips, chip distribution, poker tournament, card games, poker tools, chip counter, poker organizer
+
+===========================================
+
+CONTENT RATING:
+Everyone - No objectionable content
+(Card games, no gambling mechanics in app)
+
+===========================================
+
+PRIVACY POLICY URL:
+https://poker-chip-calculator.onrender.com/privacy-policy
+
+NOTE: You'll need to create a simple privacy policy page. Template below.
+
+===========================================
+
+SUPPORT EMAIL:
+johndebernardis@gmail.com
+
+WEBSITE:
+https://poker-chip-calculator.onrender.com
+
+===========================================
+
+WHAT'S NEW (Release Notes):
+Initial release of Poker Chip Calculator
+
+Features:
+- Auto-Calculate tournament distributions
+- Custom Stack mode for advanced users
+- Save and manage chipsets
+- Offline support
+- Professional chip calculations
+
+===========================================
+
+PROMO TEXT (optional 80 chars):
+Perfect chip distributions for every poker tournament
+
+===========================================

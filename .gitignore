@@ -37,3 +37,24 @@ htmlcov/
 
 # Claude temp files
 tmpclaude-*
+
+# Android TWA Build Files
+.gradle/
+app/
+build.gradle
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+manifest-checksum.txt
+twa-manifest.json
+store_icon.png
+app-release-*.apk
+app-release-*.aab
+app-release-*.idsig
+*.keystore
+
+# Windows/system files
+nul
+Get
+Run
