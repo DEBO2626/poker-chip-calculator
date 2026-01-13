@@ -162,13 +162,15 @@
                 <div class="lock-icon">&#128274;</div>
                 <h3>Premium Feature</h3>
                 <p>Unlock custom stack mode, save chip sets, and export features</p>
-                <button class="btn-primary btn-large" onclick="showUnlockDialog()">
-                    Upgrade to Premium - $2.99
+                <p class="small-text" style="color: #ffd700; margin-top: 10px;">⚠️ Entry Tier ($0.99) required before upgrading to Premium</p>
+                <button class="btn-primary btn-large" onclick="window.open('https://debernardis6.gumroad.com/l/bvzrd', '_blank')">
+                    Purchase Entry Tier - $0.99
                 </button>
                 <div class="license-entry">
-                    <p class="small-text">Already purchased?</p>
-                    <input type="text" id="license-key-input" placeholder="Enter license key">
-                    <button class="btn-secondary" onclick="activateLicense()">Activate</button>
+                    <p class="small-text">Already have Entry Tier?</p>
+                    <button class="btn-secondary" onclick="showUnlockDialog()">
+                        Enter License Key
+                    </button>
                 </div>
             </div>
 
