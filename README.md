@@ -2,9 +2,10 @@
 
 A professional poker chip distribution calculator that helps tournament organizers determine optimal chip allocations based on player count, tournament duration, and available chip inventory.
 
-**Version:** 2.4 (Payment Integration Complete)
-**Status:** Gumroad payment integration complete - Ready for deployment
+**Version:** 2.5 (Deployed to Production)
+**Status:** Live and deployed - Ready to publish products
 **Target Platform:** Android (Play Store) + iOS (Web) + Desktop
+**Live URL:** https://poker-chip-calculator.onrender.com
 
 ---
 

@@ -1,16 +1,17 @@
 # Quick Reference - Poker Chip Calculator
 
-**Version:** 2.4
-**Status:** 75% Complete - Ready for Phase 7 Deployment
+**Version:** 2.5
+**Status:** 85% Complete - DEPLOYED & LIVE
 **Last Updated:** 2026-01-13
+**Live URL:** https://poker-chip-calculator.onrender.com
 
 ---
 
 ## 🚀 Start Here (New Chat Session)
 
-1. **Read:** `PROJECT_STATUS.md` - Overall progress
-2. **Read:** `PHASE_6_COMPLETE.md` - What was just finished
-3. **Next:** `PHASE_7_DEPLOYMENT_GUIDE.md` - What to do next
+1. **Read:** `PROJECT_STATUS.md` - Overall progress (85% complete)
+2. **Read:** `PHASE_7_COMPLETE.md` - What was just finished (deployment)
+3. **Next:** Ready to publish Gumroad products OR start Phase 8 (TWA build)
 
 ---
 
@@ -18,10 +19,11 @@
 
 ### Documentation
 - `README.md` - Project overview
-- `PROJECT_STATUS.md` - Progress tracking (75% complete)
+- `PROJECT_STATUS.md` - Progress tracking (85% complete)
 - `PHASE_6_COMPLETE.md` - Payment integration summary
-- `PHASE_7_DEPLOYMENT_GUIDE.md` - Deployment steps
+- `PHASE_7_COMPLETE.md` - Deployment summary ⭐ NEW
 - `TESTING_GUMROAD.md` - Testing guide
+- `SESSION_SUMMARY_2026-01-13.md` - Previous session notes
 
 ### Code
 - `backend/app.py` - Flask server with Gumroad API
@@ -31,7 +33,9 @@
 - `frontend/service-worker.js` - Offline support
 
 ### Credentials (PRIVATE!)
-- `gumroad-credentials.txt` - API keys (DO NOT commit!)
+- Stored in Render.com environment variables (secure)
+- `gumroad-credentials.txt` - Local backup (gitignored)
+- GitHub repo: https://github.com/DEBO2626/poker-chip-calculator
 
 ---
 
@@ -43,7 +47,7 @@ Entry Product ID: FCZgbXwUtCUZICnWigdugA==
 Premium Product ID: 7IdKPVIR9R6Fre-xhUzXJQ==
 ```
 
-**Set these as environment variables on Render.com!**
+**✅ Set in Render.com environment variables (DONE)**
 
 ---
 
@@ -51,17 +55,22 @@ Premium Product ID: 7IdKPVIR9R6Fre-xhUzXJQ==
 
 ### Entry Tier - $0.99
 - URL: https://debernardis6.gumroad.com/l/bvzrd
-- Status: Unpublished (waiting for deployment)
+- Status: **Ready to publish** (app deployed and tested)
+- Unlocks: Auto-Calculate mode
 
 ### Premium - $2.99
-- Status: Unpublished (waiting for deployment)
+- Status: **Ready to publish** (app deployed and tested)
+- Unlocks: Custom Stack mode + Chipset management
+- Requires: Entry Tier purchased first
 
 ---
 
-## ⚠️ CRITICAL
+## ✅ Deployment Complete
 
-**DELETE BEFORE DEPLOYING:**
-- `frontend/unlock-premium.html` (security bypass!)
+- **Live URL:** https://poker-chip-calculator.onrender.com
+- **GitHub:** https://github.com/DEBO2626/poker-chip-calculator
+- **Platform:** Render.com (auto-deploy on git push)
+- **Security:** unlock-premium.html deleted ✅
 
 ---
 
@@ -77,9 +86,21 @@ Then open: http://localhost:5000
 ### Test on Phone (Local Network)
 http://192.168.68.78:5000
 
-### Enable Premium (Testing)
+### Testing License Flow (Local/Live)
 ```javascript
+// Clear all licenses (start fresh)
+localStorage.clear();
+location.reload();
+
+// Simulate Entry Tier (for testing only)
+localStorage.setItem('licenseKey', 'test-key');
+localStorage.setItem('productTier', 'entry');
+location.reload();
+
+// Simulate Premium (for testing only)
 localStorage.setItem('isPremium', 'true');
+localStorage.setItem('licenseKey', 'test-key');
+localStorage.setItem('productTier', 'premium');
 location.reload();
 ```
 
@@ -95,22 +116,30 @@ location.reload();
 - [x] License verification API
 - [x] Product graphics
 - [x] Payment method configured
+- [x] Deployed to Render.com
+- [x] GitHub repository setup
+- [x] Separate Entry/Premium dialogs
+- [x] All paywalls tested
 
 ---
 
 ## 🔄 What's Next
 
-**Phase 7: Deploy to Render.com** (2-3 hours)
+**Option A: Publish Gumroad Products** (30 minutes)
+1. Publish Entry Tier product
+2. Publish Premium product
+3. Make test purchase
+4. Verify license activation on live site
+5. Share with beta testers
 
-1. Delete unlock-premium.html
-2. Create GitHub repo
-3. Deploy to Render.com
-4. Set environment variables
-5. Test live site
-6. Publish products
-7. Test with real purchase
+**Option B: Phase 8 - Build Android TWA** (3-4 hours)
+1. Install Bubblewrap CLI
+2. Initialize TWA project
+3. Build Android APK
+4. Test on physical device
+5. Prepare for Play Store
 
-**See:** `PHASE_7_DEPLOYMENT_GUIDE.md`
+**See:** `PHASE_7_COMPLETE.md` for deployment details
 
 ---
 
@@ -124,13 +153,13 @@ location.reload();
 | 4. Frontend | Done | 100% |
 | 5. PWA Features | Done | 100% |
 | 6. Payment Integration | Done | 100% |
-| 7. Deployment | Not Started | 0% |
+| 7. Deployment | Done ✅ | 100% |
 | 8. TWA Build | Not Started | 0% |
 | 9. Play Store Assets | Not Started | 0% |
 | 10. Play Store Submit | Not Started | 0% |
 | 11. Launch & Market | Not Started | 0% |
 
-**Overall:** 75% Complete
+**Overall:** 85% Complete
 
 ---
 
