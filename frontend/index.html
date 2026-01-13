@@ -97,7 +97,7 @@
                 </button>
                 <div class="license-entry">
                     <p class="small-text">Already purchased?</p>
-                    <button class="btn-secondary" onclick="showUnlockDialog()">
+                    <button class="btn-secondary" onclick="showEntryLicenseDialog()">
                         Enter License Key
                     </button>
                 </div>
@@ -168,8 +168,8 @@
                 </button>
                 <div class="license-entry">
                     <p class="small-text">Already have Entry Tier?</p>
-                    <button class="btn-secondary" onclick="showUnlockDialog()">
-                        Enter License Key
+                    <button class="btn-secondary" onclick="showPremiumDialog()">
+                        Upgrade to Premium
                     </button>
                 </div>
             </div>
@@ -329,10 +329,31 @@
         </div>
     </div>
 
-    <!-- ===== UNLOCK DIALOG (Modal) ===== -->
-    <div id="unlock-dialog" class="modal">
+    <!-- ===== ENTRY TIER LICENSE DIALOG (Modal) ===== -->
+    <div id="entry-license-dialog" class="modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeUnlockDialog()">&times;</button>
+            <button class="modal-close" onclick="closeEntryLicenseDialog()">&times;</button>
+            <h2>Activate Entry Tier License</h2>
+            <p>Enter the license key you received via email after purchase</p>
+            <div class="license-form">
+                <input type="text" id="entry-license-input" placeholder="XXXX-XXXX-XXXX-XXXX"
+                       style="width: 100%; padding: 0.75rem; margin: 1rem 0; font-size: 1rem; text-align: center; letter-spacing: 2px; text-transform: uppercase;">
+                <button class="btn-primary btn-large" onclick="activateEntryLicense()">
+                    Activate License
+                </button>
+                <div id="entry-license-error" style="color: #ff4444; margin-top: 1rem; display: none;"></div>
+            </div>
+            <p class="small-text" style="margin-top: 1.5rem;">Don't have a license yet?</p>
+            <a href="https://debernardis6.gumroad.com/l/bvzrd" target="_blank" class="btn-secondary">
+                Purchase Entry Tier - $0.99
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== PREMIUM UPGRADE DIALOG (Modal) ===== -->
+    <div id="premium-dialog" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePremiumDialog()">&times;</button>
             <h2>Unlock Premium Features</h2>
             <div class="premium-features">
                 <p><strong>Get access to:</strong></p>
@@ -343,12 +364,19 @@
                     <li>Priority support</li>
                 </ul>
                 <p class="price">Upgrade: $2.99</p>
-                <p class="small-text" style="margin-bottom: 1rem;">(Entry tier: $0.99 | Total: $3.98)</p>
             </div>
             <a href="https://gumroad.com/l/poker-calc-premium" target="_blank" class="btn-primary btn-large">
                 Purchase Premium on Gumroad
             </a>
-            <p class="small-text">Instant delivery of license key via email</p>
+            <p class="small-text" style="margin-top: 1rem;">Enter license key after purchase:</p>
+            <div class="license-form">
+                <input type="text" id="premium-license-input" placeholder="XXXX-XXXX-XXXX-XXXX"
+                       style="width: 100%; padding: 0.75rem; margin: 1rem 0; font-size: 1rem; text-align: center; letter-spacing: 2px; text-transform: uppercase;">
+                <button class="btn-secondary" onclick="activatePremiumLicense()">
+                    Activate Premium License
+                </button>
+                <div id="premium-license-error" style="color: #ff4444; margin-top: 1rem; display: none;"></div>
+            </div>
         </div>
     </div>
 

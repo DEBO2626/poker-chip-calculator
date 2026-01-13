@@ -282,19 +282,34 @@ function deleteChipset(chipsetId) {
 // PREMIUM/LICENSE MANAGEMENT
 // ============================================================================
 
-function showUnlockDialog() {
-    document.getElementById('unlock-dialog').classList.add('active');
+// Entry Tier License Dialog
+function showEntryLicenseDialog() {
+    document.getElementById('entry-license-dialog').classList.add('active');
 }
 
-function closeUnlockDialog() {
-    document.getElementById('unlock-dialog').classList.remove('active');
+function closeEntryLicenseDialog() {
+    document.getElementById('entry-license-dialog').classList.remove('active');
+    document.getElementById('entry-license-error').style.display = 'none';
 }
 
-async function activateLicense() {
-    const licenseKey = document.getElementById('license-key-input').value.trim();
+// Premium Upgrade Dialog
+function showPremiumDialog() {
+    document.getElementById('premium-dialog').classList.add('active');
+}
+
+function closePremiumDialog() {
+    document.getElementById('premium-dialog').classList.remove('active');
+    document.getElementById('premium-license-error').style.display = 'none';
+}
+
+// Activate Entry Tier License
+async function activateEntryLicense() {
+    const licenseKey = document.getElementById('entry-license-input').value.trim();
+    const errorDiv = document.getElementById('entry-license-error');
 
     if (!licenseKey) {
-        alert('Please enter a license key');
+        errorDiv.textContent = 'Please enter a license key';
+        errorDiv.style.display = 'block';
         return;
     }
 
@@ -302,9 +317,9 @@ async function activateLicense() {
     const button = event.target;
     button.disabled = true;
     button.textContent = 'Verifying...';
+    errorDiv.style.display = 'none';
 
     try {
-        // Try to verify as Entry Tier first
         const response = await fetch(`${API_BASE_URL}/api/verify-license`, {
             method: 'POST',
             headers: {
@@ -319,60 +334,86 @@ async function activateLicense() {
         const data = await response.json();
 
         if (data.success && data.valid) {
-            // License is valid!
-            localStorage.setItem('isPremium', 'true');
+            // Entry Tier license is valid!
             localStorage.setItem('licenseKey', licenseKey);
-            localStorage.setItem('productTier', data.product_tier);
+            localStorage.setItem('productTier', 'entry');
             localStorage.setItem('purchaseEmail', data.purchase_email || '');
 
             // Show success message
-            alert(`✅ License activated successfully!\n\nProduct: ${data.product_name || 'Entry Tier'}\nEmail: ${data.purchase_email || 'N/A'}`);
+            alert(`✅ Entry Tier activated!\n\nYou now have access to the poker chip calculator.\n\nEmail: ${data.purchase_email || 'N/A'}`);
 
-            // Close dialog
-            closeUnlockDialog();
-
-            // Reload page to show unlocked features
+            // Close dialog and reload
+            closeEntryLicenseDialog();
             location.reload();
         } else {
-            // Try Premium tier
-            const premiumResponse = await fetch(`${API_BASE_URL}/api/verify-license`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    license_key: licenseKey,
-                    product_id: 'premium'
-                })
-            });
-
-            const premiumData = await premiumResponse.json();
-
-            if (premiumData.success && premiumData.valid) {
-                // Premium license is valid!
-                localStorage.setItem('isPremium', 'true');
-                localStorage.setItem('licenseKey', licenseKey);
-                localStorage.setItem('productTier', premiumData.product_tier);
-                localStorage.setItem('purchaseEmail', premiumData.purchase_email || '');
-
-                // Show success message
-                alert(`✅ Premium license activated successfully!\n\nProduct: ${premiumData.product_name || 'Premium Upgrade'}\nEmail: ${premiumData.purchase_email || 'N/A'}`);
-
-                // Close dialog
-                closeUnlockDialog();
-
-                // Reload page to show unlocked features
-                location.reload();
-            } else {
-                // Invalid license for both tiers
-                alert(`❌ Invalid license key\n\n${data.error || premiumData.error || 'Please check your key and try again.'}`);
-            }
+            // Invalid license
+            errorDiv.textContent = data.error || 'Invalid license key. Please check and try again.';
+            errorDiv.style.display = 'block';
         }
     } catch (error) {
-        alert(`❌ Error verifying license\n\n${error.message}\n\nPlease check your internet connection and try again.`);
+        errorDiv.textContent = `Error: ${error.message}. Please check your internet connection.`;
+        errorDiv.style.display = 'block';
     } finally {
         button.disabled = false;
-        button.textContent = 'Activate';
+        button.textContent = 'Activate License';
+    }
+}
+
+// Activate Premium License
+async function activatePremiumLicense() {
+    const licenseKey = document.getElementById('premium-license-input').value.trim();
+    const errorDiv = document.getElementById('premium-license-error');
+
+    if (!licenseKey) {
+        errorDiv.textContent = 'Please enter a license key';
+        errorDiv.style.display = 'block';
+        return;
+    }
+
+    // Show loading
+    const button = event.target;
+    button.disabled = true;
+    button.textContent = 'Verifying...';
+    errorDiv.style.display = 'none';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/verify-license`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                license_key: licenseKey,
+                product_id: 'premium'
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.valid) {
+            // Premium license is valid!
+            localStorage.setItem('isPremium', 'true');
+            localStorage.setItem('licenseKey', licenseKey);
+            localStorage.setItem('productTier', 'premium');
+            localStorage.setItem('purchaseEmail', data.purchase_email || '');
+
+            // Show success message
+            alert(`✅ Premium activated!\n\nYou now have access to all premium features.\n\nEmail: ${data.purchase_email || 'N/A'}`);
+
+            // Close dialog and reload
+            closePremiumDialog();
+            location.reload();
+        } else {
+            // Invalid license
+            errorDiv.textContent = data.error || 'Invalid license key. Please check and try again.';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        errorDiv.textContent = `Error: ${error.message}. Please check your internet connection.`;
+        errorDiv.style.display = 'block';
+    } finally {
+        button.disabled = false;
+        button.textContent = 'Activate Premium License';
     }
 }
 
