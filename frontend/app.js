@@ -14,6 +14,11 @@ function isPremium() {
     return localStorage.getItem('isPremium') === 'true';
 }
 
+// Check if user has any license (Entry Tier or Premium)
+function hasLicense() {
+    return localStorage.getItem('isPremium') === 'true' || localStorage.getItem('licenseKey');
+}
+
 // ============================================================================
 // SCREEN NAVIGATION
 // ============================================================================
@@ -34,7 +39,16 @@ function showScreen(screenId) {
 
 function selectMode(mode) {
     if (mode === 'auto') {
+        // Check if user has Entry Tier or Premium license
+        if (!hasLicense()) {
+            showScreen('auto-screen');
+            document.getElementById('entry-lock').style.display = 'block';
+            document.getElementById('auto-form').style.display = 'none';
+            return;
+        }
         showScreen('auto-screen');
+        document.getElementById('entry-lock').style.display = 'none';
+        document.getElementById('auto-form').style.display = 'block';
     } else if (mode === 'custom') {
         // Check premium status first
         if (!isPremium()) {
