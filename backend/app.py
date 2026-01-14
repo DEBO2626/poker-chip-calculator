@@ -27,6 +27,12 @@ GUMROAD_PRODUCT_IDS = {
     'premium': os.environ.get('GUMROAD_PREMIUM_PRODUCT_ID', '7IdKPVIR9R6Fre-xhUzXJQ==')
 }
 
+# TODO: REMOVE BEFORE PRODUCTION - Test license keys for closed testing
+TEST_LICENSE_KEYS = {
+    'TESTER-2026-ENTRY-KEY': 'entry',
+    'TESTER-2026-PREMIUM-KEY': 'premium'
+}
+
 # Load chip set once at startup
 try:
     CHIP_SET = load_chip_set()
@@ -219,6 +225,19 @@ def verify_license():
                 'success': False,
                 'error': 'Invalid product_id. Must be "entry" or "premium"'
             }), 400
+
+        # TODO: REMOVE BEFORE PRODUCTION - Check for test license keys
+        if license_key in TEST_LICENSE_KEYS:
+            test_tier = TEST_LICENSE_KEYS[license_key]
+            if test_tier == product_tier or (test_tier == 'premium' and product_tier == 'entry'):
+                return jsonify({
+                    'success': True,
+                    'valid': True,
+                    'product_tier': product_tier,
+                    'purchase_email': 'tester@test.com',
+                    'purchase_date': '2026-01-14',
+                    'product_name': f'Test {product_tier.title()} License'
+                })
 
         # Get the actual Gumroad product ID
         gumroad_product_id = GUMROAD_PRODUCT_IDS[product_tier]
