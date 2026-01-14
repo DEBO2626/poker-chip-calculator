@@ -58,3 +58,6 @@ app-release-*.idsig
 nul
 Get
 Run
+
+# Backup files in root (keep copies, don't track)
+/pokerchipcounter.py
