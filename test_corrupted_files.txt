@@ -1,4 +1,0 @@
-# Test corrupted chip file - negative count
--50 $1
-200 $5
-200 $25
