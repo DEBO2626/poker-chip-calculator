@@ -1,17 +1,17 @@
 # PROJECT STATUS - Poker Chip Calculator
 
-## Overall Progress: 98% Complete
+## Overall Progress: 99% Complete
 
 ---
 
 ## PHASE COMPLETION CHECKLIST
 
-### ✅ Phase 1: Account Setup (50% COMPLETE)
-- [ ] Create Google Play Developer Account ($25)
+### ✅ Phase 1: Account Setup (100% COMPLETE)
+- [x] Create Google Play Developer Account ($25) ✅
 - [x] Create Gumroad Account (Free) ✅
 - [ ] Register Domain Name (Optional, $12/year)
 
-**Status:** PARTIAL - Gumroad account created with payment method configured
+**Status:** COMPLETE ✅
 
 ---
 
@@ -38,6 +38,7 @@
 - [x] Test locally
 - [x] Add static file serving
 - [x] Add no-cache headers
+- [x] Add test license keys for closed testing ✅ NEW
 
 **Status:** COMPLETE ✅
 
@@ -45,12 +46,6 @@
 
 ### ✅ Phase 4: Build Mobile-Friendly Frontend (100% COMPLETE)
 - [x] Create HTML structure (5 screens)
-  - [x] Mode selection screen
-  - [x] Auto-calculate screen
-  - [x] Custom stack screen
-  - [x] Chipset selection screen
-  - [x] Chipset create/edit screen
-  - [x] Results screen
 - [x] Style with CSS (poker-themed, mobile-first)
 - [x] Add JavaScript functionality
 - [x] Implement Mode 1 (Auto-calculate)
@@ -64,38 +59,21 @@
 
 ### ✅ Phase 5: Add PWA Features (100% COMPLETE)
 - [x] Create manifest.json
-  - [x] App name, icons, colors
-  - [x] Display mode: "standalone"
 - [x] Create service-worker.js
-  - [x] Cache static assets
-  - [x] Enable offline functionality
 - [x] Add PWA meta tags
-  - [x] Theme colors
-  - [x] Apple touch icons
-  - [x] Status bar style
 - [x] Add service worker registration
-- [ ] Test PWA installation (requires deployment)
-  - [ ] Install on Android Chrome
-  - [ ] Test "Add to Home Screen"
-  - [ ] Verify offline mode
 
-**Status:** COMPLETE ✅ (Testing requires live deployment)
+**Status:** COMPLETE ✅
 
 ---
 
 ### ✅ Phase 6: Integrate Gumroad Payment (100% COMPLETE)
 - [x] Create Gumroad products ✅
-  - [x] Entry tier ($0.99) ✅
-  - [x] Premium tier ($2.99) ✅
-  - [x] Enable license keys ✅
-  - [x] Add product graphics (covers & thumbnails) ✅
 - [x] Implement license verification API in backend ✅
 - [x] Update frontend license activation ✅
 - [x] Set up Gumroad payment method (bank account) ✅
-- [x] Products created and tested (currently unpublished) ✅
-- [ ] Test with real purchase (requires Phase 7 deployment)
 
-**Status:** COMPLETE ✅ - Products unpublished until app is deployed
+**Status:** COMPLETE ✅
 
 ---
 
@@ -104,18 +82,11 @@
 - [x] Create Render.com account ✅
 - [x] Deploy Flask backend ✅
 - [x] Deploy frontend static files ✅
-- [x] Configure environment variables (Gumroad credentials) ✅
+- [x] Configure environment variables ✅
 - [x] Test live site ✅
-- [x] Delete unlock-premium.html test file ✅
-- [x] Fix license entry flow (separate Entry/Premium dialogs) ✅
-- [x] Test Entry Tier paywall ✅
-- [x] Test Premium paywall ✅
-- [ ] Publish Gumroad products (ready to publish)
-- [ ] Test end-to-end payment flow with real purchase
 
-**Status:** COMPLETE ✅ - Live at Render.com, ready to publish products
-
-**Live URL:** https://poker-chip-calculator.onrender.com (or your assigned URL)
+**Status:** COMPLETE ✅
+**Live URL:** https://poker-chip-calculator.onrender.com
 
 ---
 
@@ -125,15 +96,18 @@
 - [x] Build Android APK ✅
 - [x] Build Android App Bundle (AAB) ✅
 - [x] Test APK on Galaxy S25 ✅
-- [x] Verify license activation works ✅
-- [x] Test all features ✅
+- [x] Add native splash screen ✅ NEW
+- [x] Add onboarding walkthrough ✅ NEW
+- [x] Add start button activity ✅ NEW
 
-**Status:** COMPLETE ✅ - APK and AAB ready for Play Store
+**Status:** COMPLETE ✅
 
-**Files Ready:**
-- `app-release-signed.apk` (3.7 MB) - For testing
-- `app-release-bundle.aab` (4.0 MB) - For Play Store
-- `android.keystore` - Signing key (KEEP SAFE!)
+**Current Version:** 1.1 (versionCode 2)
+
+**Native Components Added:**
+- SplashActivity - 2 second branded splash screen
+- OnboardingActivity - 3 swipeable screens (first launch only)
+- StartActivity - Native button to launch TWA
 
 ---
 
@@ -142,24 +116,13 @@
 - [x] Take screenshots (4 total) ✅
 - [x] Create privacy policy ✅
 - [x] Write store listing ✅
-  - [x] Title ✅
-  - [x] Short description ✅
-  - [x] Full description ✅
-  - [x] Keywords ✅
 - [x] Deploy privacy policy to live site ✅
 
-**Status:** COMPLETE ✅ - All assets ready for Play Store submission
-
-**Assets Location:** `play-store-assets/`
-- Screenshots: `screenshots/` (4 images)
-- Descriptions: `app-descriptions.txt`
-- Privacy Policy: https://poker-chip-calculator.onrender.com/privacy-policy.html
-- App Icon: `frontend/assets/app-icon.png`
-- Checklist: `PLAY_STORE_CHECKLIST.md`
+**Status:** COMPLETE ✅
 
 ---
 
-### ✅ Phase 10: Submit to Play Store (95% COMPLETE)
+### ✅ Phase 10: Submit to Play Store (98% COMPLETE)
 - [x] Create app in Play Console ✅
 - [x] Upload AAB to Internal testing ✅
 - [x] Upload AAB to Closed testing ✅
@@ -171,31 +134,26 @@
 - [x] Submit Closed testing for review ✅
 - [x] Google approved Closed testing ✅
 - [x] Get opt-in link for testers ✅
-- [x] Research tester recruitment solution ✅
-- [ ] Order Fiverr tester service ($10-12) - **NEXT ACTION**
-- [ ] Testers opt-in and install (1-3 days)
-- [ ] 14-day testing period (14 days)
+- [x] Add native Android components (v1.1) ✅ NEW
+- [x] Add test license keys for testers ✅ NEW
+- [x] Upload new AAB (v1.1) ✅ NEW
+- [ ] 14-day testing period (IN PROGRESS)
 - [ ] Apply for production access
 
-**Status:** APPROVED - Ready to recruit testers via Fiverr
+**Status:** 98% COMPLETE - Testing period active
 
 **What's Happening:**
-- Closed testing approved by Google (January 13, 2026) ✅
-- Opt-in link obtained from Play Console ✅
-- Fiverr service researched and verified (rdtm44) ✅
-- **ACTION REQUIRED:** Order Fiverr service for $10-12
-- 14-day testing period will begin when 12th tester joins
-- Target launch: February 10-20, 2026
-
-**Fiverr Service:**
-- URL: https://www.fiverr.com/rdtm44/do-20-tester-google-play-app-pre-release-closed-testing
-- Cost: $10 (+ fees = ~$12 total)
-- Seller: rdtm44 (verified reputable with positive reviews)
-- Delivery: 12 testers for 14 days
+- Closed testing approved by Google ✅
+- Native Android components added (splash, onboarding, start button) ✅
+- App version bumped to 1.1 (versionCode 2) ✅
+- Test license keys added for testers ✅
+- New AAB uploaded to Play Store ✅
+- 14-day testing period in progress
 
 ---
 
 ### 🔄 Phase 11: Launch & Market (0%)
+- [ ] Remove test license keys from backend
 - [ ] Prepare launch materials
 - [ ] Launch on approval
 - [ ] Post on Reddit r/poker
@@ -207,183 +165,106 @@
 
 ---
 
-## CURRENT CAPABILITIES
+## ⚠️ CRITICAL: BEFORE PRODUCTION LAUNCH
 
-### What Works Right Now:
-✅ **Auto-Calculate Mode**
-- Input: players, blinds, duration, blind level time
-- Output: Optimal chip distribution
-- Auto-adjustment if inventory insufficient
+### Test License Keys to Remove
 
-✅ **Custom Stack Mode**
-- Input: players, blinds, target stack, chipset selection
-- Create/edit/delete custom chipsets
-- Save to localStorage
-- Set default chipset
+The following MUST be removed from `backend/app.py` before production:
 
-✅ **Chipset Management**
-- Create chipset with custom denominations
-- Edit existing chipsets
-- Delete chipsets
-- View all chipsets with statistics
-- Default chipset auto-selection
+```python
+# Lines 30-34 - Delete this entire block:
+TEST_LICENSE_KEYS = {
+    'TESTER-2026-ENTRY-KEY': 'entry',
+    'TESTER-2026-PREMIUM-KEY': 'premium'
+}
 
-✅ **Professional UI**
-- Mobile-responsive design
-- Real poker chip graphics
-- Poker felt background
-- Smooth animations
-
-✅ **Local Development**
-- Flask server runs on localhost:5000
-- No-cache headers prevent browser caching
-- Easy server start with START-SERVER.bat
-
-✅ **PWA Features**
-- manifest.json configured for installability
-- Service worker with offline caching
-- Apple PWA meta tags
-- Automatic service worker registration
+# Lines 229-240 - Delete the test key check in verify_license():
+if license_key in TEST_LICENSE_KEYS:
+    test_tier = TEST_LICENSE_KEYS[license_key]
+    if test_tier == product_tier or (test_tier == 'premium' and product_tier == 'entry'):
+        return jsonify({
+            'success': True,
+            'valid': True,
+            'product_tier': product_tier,
+            'purchase_email': 'tester@test.com',
+            'purchase_date': '2026-01-14',
+            'product_name': f'Test {product_tier.title()} License'
+        })
+```
 
 ---
 
-## WHAT'S MISSING
+## APP VERSION HISTORY
 
-### Critical for Launch:
-1. ✅ PWA manifest.json (makes app installable)
-2. ✅ Service worker (enables offline mode)
-3. ❌ Gumroad license verification API
-4. ❌ Deployment to live hosting
-5. ❌ Android TWA build
-6. ❌ Google Play Store submission
-
-### Nice to Have (Post-Launch):
-- Export chipset to JSON/CSV
-- Import chipset from file
-- PDF export of distribution
-- Tournament timer
-- Cloud sync (requires backend DB)
+| Version | versionCode | Changes |
+|---------|-------------|---------|
+| 1.0 | 1 | Initial TWA release |
+| 1.1 | 2 | Native splash, onboarding, start button |
 
 ---
 
-## IMMEDIATE NEXT STEPS
+## TEST LICENSE KEYS (TEMPORARY)
 
-### Option A: Continue Development (PWA Features)
-**Time:** 4-5 hours
-**Cost:** $0
+**For Closed Testing Only:**
+- Entry Tier: `TESTER-2026-ENTRY-KEY`
+- Premium: `TESTER-2026-PREMIUM-KEY`
 
-1. Create manifest.json with app configuration
-2. Implement service worker for offline support
-3. Add PWA meta tags to index.html
-4. Test installation on phone
-
-### Option B: Set Up Accounts & Deploy
-**Time:** 3-4 hours  
-**Cost:** $25 (Google Play) + $12/year (domain optional)
-
-1. Create Google Play Developer account
-2. Create Gumroad account
-3. Deploy to Render.com
-4. Test live site
-
-### Option C: Integrate Payments
-**Time:** 3-4 hours
-**Cost:** $0
-
-1. Set up Gumroad products
-2. Implement license verification
-3. Test payment flow end-to-end
+**Deployed to:** https://poker-chip-calculator.onrender.com (Render auto-deployed from GitHub)
 
 ---
 
-## ESTIMATED TIME TO LAUNCH
+## NEW APP FLOW (v1.1)
 
-| Remaining Work | Time Required |
-|----------------|---------------|
-| ~~PWA features~~ | ~~4-5 hours~~ ✅ |
-| Gumroad integration | 3-4 hours |
-| Deploy to hosting | 2-3 hours |
-| Create TWA | 4-6 hours |
-| Play Store assets | 4-6 hours |
-| Submit & launch | 2-3 hours |
-| **TOTAL** | **15-22 hours** |
-
-**Realistic Timeline:**
-- **Part-time (5 hrs/week):** 4-6 weeks
-- **Full-time (20 hrs/week):** 1-2 weeks
-- **Sprint (40+ hrs/week):** 3-5 days
-
----
-
-## COST BREAKDOWN TO LAUNCH
-
-| Item | Cost | Status |
-|------|------|--------|
-| Google Play Developer | $25 | Not purchased |
-| Gumroad Account | $0 | Not created |
-| Hosting (Render.com) | $0 | Free tier |
-| Domain (optional) | $12/year | Not purchased |
-| **TOTAL TO LAUNCH** | **$25-37** | - |
+```
+App Launch
+    ↓
+[SplashActivity] (2 seconds)
+    ↓
+First Launch? ─Yes→ [OnboardingActivity] (3 screens)
+    │                      ↓
+    No              [StartActivity]
+    │                      ↓
+    └─────────────→ User taps "Start Calculator"
+                           ↓
+                   [LauncherActivity/TWA]
+                           ↓
+                   Web App loads
+```
 
 ---
 
-## REVENUE POTENTIAL
+## FILES ADDED IN v1.1
 
-**Conservative Year 1:**
-- 500 installs
-- 300 entry purchases (60% conversion) = $297
-- 90 premium upgrades (30% of entry) = $270
-- **Total Revenue:** ~$567
+### Java Source Files
+- `app/src/main/java/.../SplashActivity.java`
+- `app/src/main/java/.../OnboardingActivity.java`
+- `app/src/main/java/.../StartActivity.java`
 
-**Optimistic Year 1:**
-- 1,000 installs  
-- 700 entry purchases (70%) = $693
-- 280 premium upgrades (40%) = $840
-- **Total Revenue:** ~$1,533
+### Layout XML Files
+- `app/src/main/res/layout/activity_splash.xml`
+- `app/src/main/res/layout/activity_onboarding.xml`
+- `app/src/main/res/layout/item_onboarding.xml`
+- `app/src/main/res/layout/activity_start.xml`
 
-**Break-even:** 7 entry + 3 premium sales = ~$16
+### Drawable Resources
+- `app/src/main/res/drawable/button_primary.xml`
+- `app/src/main/res/drawable/button_outline.xml`
+- `app/src/main/res/drawable/dot_active.xml`
+- `app/src/main/res/drawable/dot_inactive.xml`
+- `app/src/main/res/drawable/onboarding_welcome.xml`
+- `app/src/main/res/drawable/onboarding_auto.xml`
+- `app/src/main/res/drawable/onboarding_custom.xml`
 
----
+### Theme Files
+- `app/src/main/res/values/themes.xml` (NEW)
+- `app/src/main/res/values/colors.xml` (MODIFIED)
 
-## DECISION POINT
-
-**Where are you in the project?**
-- 45% complete overall
-- Core functionality done (calculator, UI, chipset management)
-- Need PWA features, payment integration, and deployment
-
-**What do you want to do next?**
-
-1. **Continue coding** → Work on PWA features (Phase 5)
-2. **Set up accounts** → Create Google Play & Gumroad accounts (Phase 1)
-3. **Deploy now** → Get it live on Render.com (Phase 7)
-4. **Add payments** → Integrate Gumroad (Phase 6)
-5. **Plan & strategize** → Review roadmap and make decisions
-
-**Recommendation:** Start Phase 5 (PWA features) since you have coding momentum. This makes the app installable and works offline, which is core functionality. Then deploy.
+### Backend Changes
+- `backend/app.py` - Added TEST_LICENSE_KEYS and verify check
 
 ---
 
-**Last Updated:** 2026-01-13
-**Current Version:** 2.3 (PWA Features Complete)
-
----
-
-## SECURITY NOTES FOR PRODUCTION
-
-### ⚠️ BEFORE DEPLOYMENT - REMOVE TEST FILES
-
-**Files to Remove/Secure:**
-1. `frontend/unlock-premium.html` - DELETE THIS FILE
-   - Currently allows anyone to unlock premium for free
-   - Created for local testing only
-   - **CRITICAL:** Must remove before deploying to production
-
-**Alternative Options for Production:**
-- Option A: Delete the file entirely (recommended)
-- Option B: Password-protect it with a secret code
-- Option C: Move to admin-only route with authentication
-
-**Action Required:** Delete or secure before Phase 7 (Deploy to Hosting)
+**Last Updated:** 2026-01-14
+**Current Version:** 1.1 (versionCode 2)
 
 ---

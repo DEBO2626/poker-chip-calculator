@@ -1,42 +1,51 @@
 # Quick Reference - Poker Chip Calculator
 
-**Version:** 2.6
-**Status:** 95% Complete - ANDROID APP READY FOR PLAY STORE
-**Last Updated:** 2026-01-13
+**Version:** 1.1 (versionCode 2)
+**Status:** 99% Complete - TESTING PERIOD ACTIVE
+**Last Updated:** 2026-01-14
 **Live URL:** https://poker-chip-calculator.onrender.com
 
 ---
 
 ## 🚀 Start Here (New Chat Session)
 
-1. **Read:** `PROJECT_STATUS.md` - Overall progress (95% complete)
-2. **Read:** `PHASE_8_9_COMPLETE.md` - Android TWA built & Play Store ready
-3. **Next:** Submit to Google Play Store (Phase 10)
+1. **Read:** `START_HERE_NEW_SESSION.md` - Current status & next steps
+2. **Read:** `PROJECT_STATUS.md` - Overall progress (99% complete)
+3. **Read:** `SESSION_SUMMARY_2026-01-14_NATIVE-COMPONENTS.md` - Latest changes
 
 ---
 
 ## 📁 Key Files
 
 ### Documentation
-- `README.md` - Project overview
-- `PROJECT_STATUS.md` - Progress tracking (95% complete)
-- `PHASE_6_COMPLETE.md` - Payment integration summary
-- `PHASE_7_COMPLETE.md` - Deployment summary
-- `PHASE_8_9_COMPLETE.md` - Android TWA & Play Store assets ⭐ NEW
-- `TESTING_GUMROAD.md` - Testing guide
-- `play-store-assets/PLAY_STORE_CHECKLIST.md` - Submission guide ⭐ NEW
+- `START_HERE_NEW_SESSION.md` - Quick start guide
+- `PROJECT_STATUS.md` - Progress tracking (99% complete)
+- `SESSION_SUMMARY_2026-01-14_NATIVE-COMPONENTS.md` - Latest session ⭐ NEW
+- `SESSION_SUMMARY_2026-01-14_FIVERR-TESTERS.md` - Tester recruitment
+- `play-store-assets/PLAY_STORE_CHECKLIST.md` - Submission guide
 
 ### Code
-- `backend/app.py` - Flask server with Gumroad API
+- `backend/app.py` - Flask server with Gumroad API + test keys
 - `frontend/index.html` - Main app
 - `frontend/app.js` - JavaScript logic
 - `frontend/manifest.json` - PWA config
 - `frontend/service-worker.js` - Offline support
 
-### Credentials (PRIVATE!)
-- Stored in Render.com environment variables (secure)
-- `gumroad-credentials.txt` - Local backup (gitignored)
-- GitHub repo: https://github.com/DEBO2626/poker-chip-calculator
+### Android Native (NEW in v1.1)
+- `app/src/main/java/.../SplashActivity.java` - Splash screen
+- `app/src/main/java/.../OnboardingActivity.java` - Walkthrough
+- `app/src/main/java/.../StartActivity.java` - Start button
+
+---
+
+## ⚠️ TEST LICENSE KEYS (REMOVE BEFORE PRODUCTION)
+
+```
+Entry Tier:  TESTER-2026-ENTRY-KEY
+Premium:     TESTER-2026-PREMIUM-KEY
+```
+
+**Location to remove:** `backend/app.py` lines 30-34 and 229-240
 
 ---
 
@@ -48,7 +57,7 @@ Entry Product ID: FCZgbXwUtCUZICnWigdugA==
 Premium Product ID: 7IdKPVIR9R6Fre-xhUzXJQ==
 ```
 
-**✅ Set in Render.com environment variables (DONE)**
+**✅ Set in Render.com environment variables**
 
 ---
 
@@ -56,22 +65,43 @@ Premium Product ID: 7IdKPVIR9R6Fre-xhUzXJQ==
 
 ### Entry Tier - $0.99
 - URL: https://debernardis6.gumroad.com/l/bvzrd
-- Status: **Ready to publish** (app deployed and tested)
 - Unlocks: Auto-Calculate mode
 
 ### Premium - $2.99
-- Status: **Ready to publish** (app deployed and tested)
+- URL: https://debernardis6.gumroad.com/l/eepjed
 - Unlocks: Custom Stack mode + Chipset management
-- Requires: Entry Tier purchased first
 
 ---
 
-## ✅ Deployment Complete
+## 📱 App Flow (v1.1)
+
+```
+App Launch → SplashActivity (2s) → First Launch?
+                                       │
+                    Yes ───────────────┴───────────────── No
+                     ↓                                     ↓
+              OnboardingActivity                    StartActivity
+              (3 swipeable screens)                      ↓
+                     ↓                              User taps
+              StartActivity                      "Start Calculator"
+                     ↓                                     ↓
+              User taps                           LauncherActivity/TWA
+           "Start Calculator"                           ↓
+                     ↓                              Web App loads
+              LauncherActivity/TWA
+                     ↓
+              Web App loads
+```
+
+---
+
+## ✅ Deployment
 
 - **Live URL:** https://poker-chip-calculator.onrender.com
 - **GitHub:** https://github.com/DEBO2626/poker-chip-calculator
 - **Platform:** Render.com (auto-deploy on git push)
-- **Security:** unlock-premium.html deleted ✅
+- **Play Console:** https://play.google.com/console
+- **Package:** com.onrender.poker_chip_calculator.twa
 
 ---
 
@@ -84,65 +114,20 @@ python app.py
 ```
 Then open: http://localhost:5000
 
-### Test on Phone (Local Network)
-http://192.168.68.78:5000
+### Build Android APK/AAB
+```bash
+# Set environment variables
+set JAVA_HOME=C:\Users\john_\.bubblewrap\jdk\jdk-17.0.11+9
+set ANDROID_HOME=C:\Users\john_\AppData\Local\Android\Sdk
 
-### Testing License Flow (Local/Live)
-```javascript
-// Clear all licenses (start fresh)
-localStorage.clear();
-location.reload();
+# Build
+cd "c:\Users\john_\Desktop\Poker chip"
+gradlew assembleRelease  # APK
+gradlew bundleRelease    # AAB
 
-// Simulate Entry Tier (for testing only)
-localStorage.setItem('licenseKey', 'test-key');
-localStorage.setItem('productTier', 'entry');
-location.reload();
-
-// Simulate Premium (for testing only)
-localStorage.setItem('isPremium', 'true');
-localStorage.setItem('licenseKey', 'test-key');
-localStorage.setItem('productTier', 'premium');
-location.reload();
+# Sign AAB
+"%JAVA_HOME%\bin\jarsigner" -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore android.keystore app\build\outputs\bundle\release\app-release.aab android
 ```
-
----
-
-## ✅ What's Complete
-
-- [x] Flask backend
-- [x] Mobile-responsive frontend
-- [x] PWA features (offline, installable)
-- [x] Chipset management
-- [x] Gumroad integration
-- [x] License verification API
-- [x] Product graphics
-- [x] Payment method configured
-- [x] Deployed to Render.com
-- [x] GitHub repository setup
-- [x] Separate Entry/Premium dialogs
-- [x] All paywalls tested
-- [x] Android TWA built (APK + AAB)
-- [x] Tested on Galaxy S25
-- [x] Play Store screenshots (4 images)
-- [x] Privacy policy deployed
-
----
-
-## 🔄 What's Next
-
-**Phase 10: Submit to Google Play Store** (1-2 hours)
-1. Go to: https://play.google.com/console
-2. Create app listing
-3. Upload `app-release-bundle.aab`
-4. Upload screenshots from `play-store-assets/screenshots/`
-5. Upload app icon: `frontend/assets/app-icon.png`
-6. Copy descriptions from `play-store-assets/app-descriptions.txt`
-7. Enter privacy policy URL: https://poker-chip-calculator.onrender.com/privacy-policy.html
-8. Submit for review
-
-**Review time:** 1-7 days
-
-**See:** `play-store-assets/PLAY_STORE_CHECKLIST.md` for detailed steps
 
 ---
 
@@ -150,28 +135,49 @@ location.reload();
 
 | Phase | Status | Complete |
 |-------|--------|----------|
-| 1. Account Setup | Partial | 50% |
-| 2. Local Dev | Done | 100% |
-| 3. Backend | Done | 100% |
-| 4. Frontend | Done | 100% |
-| 5. PWA Features | Done | 100% |
-| 6. Payment Integration | Done | 100% |
+| 1. Account Setup | Done ✅ | 100% |
+| 2. Local Dev | Done ✅ | 100% |
+| 3. Backend | Done ✅ | 100% |
+| 4. Frontend | Done ✅ | 100% |
+| 5. PWA Features | Done ✅ | 100% |
+| 6. Payment Integration | Done ✅ | 100% |
 | 7. Deployment | Done ✅ | 100% |
 | 8. TWA Build | Done ✅ | 100% |
 | 9. Play Store Assets | Done ✅ | 100% |
-| 10. Play Store Submit | Ready | 0% |
+| 10. Play Store Submit | Testing | 98% |
 | 11. Launch & Market | Not Started | 0% |
 
-**Overall:** 95% Complete
+**Overall:** 99% Complete
 
 ---
 
-## 🎓 Learning Resources
+## 🔄 What's Next
 
-- Gumroad Docs: https://gumroad.com/api
-- Render Docs: https://render.com/docs
-- PWA Guide: https://web.dev/progressive-web-apps/
+1. **Wait for 14-day testing period** to complete
+2. **Apply for production access** in Play Console
+3. **Remove test license keys** from backend/app.py
+4. **Deploy clean version** to Render.com
+5. **Submit for production review**
 
 ---
 
-**Ready for Phase 7!** 🚀
+## 📝 Version History
+
+| Version | versionCode | Date | Changes |
+|---------|-------------|------|---------|
+| 1.0 | 1 | 2026-01-13 | Initial TWA release |
+| 1.1 | 2 | 2026-01-14 | Native splash, onboarding, start button |
+
+---
+
+## 🔗 Important Links
+
+- **Play Console:** https://play.google.com/console
+- **Render Dashboard:** https://dashboard.render.com
+- **GitHub Repo:** https://github.com/DEBO2626/poker-chip-calculator
+- **Gumroad Dashboard:** https://gumroad.com/dashboard
+- **Live App:** https://poker-chip-calculator.onrender.com
+
+---
+
+**Ready for production launch after testing period!** 🚀
