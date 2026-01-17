@@ -232,3 +232,18 @@ location.reload();
 ---
 
 **Last Updated:** 2026-01-13 (v2.3 - PWA Features Complete)
+
+---
+
+## ⚠️ Important: Internet Connection Required
+
+**This app requires an active internet connection to function.**
+
+- The Android app (TWA) loads the live website from Render.com
+- All calculations are performed on the server
+- License verification requires internet access
+- Offline mode is not supported
+
+This is normal for TWA (Trusted Web Activity) apps - they are web apps packaged for the Play Store, not native offline apps.
+
+---
