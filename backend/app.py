@@ -29,8 +29,7 @@ GUMROAD_PRODUCT_IDS = {
 
 # Owner test keys - personal use only
 TEST_LICENSE_KEYS = {
-    'DEBO-ENTRY-pizzaman26': 'entry',
-    'DEBO-PREMIUM-pizzaman26': 'premium'
+    'Pizzaman26!': 'premium'
 }
 
 # Load chip set once at startup
