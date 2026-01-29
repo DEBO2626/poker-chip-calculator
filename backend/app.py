@@ -27,10 +27,10 @@ GUMROAD_PRODUCT_IDS = {
     'premium': os.environ.get('GUMROAD_PREMIUM_PRODUCT_ID', '7IdKPVIR9R6Fre-xhUzXJQ==')
 }
 
-# TODO: REMOVE BEFORE PRODUCTION - Test license keys for closed testing
+# Owner test keys - personal use only
 TEST_LICENSE_KEYS = {
-    'TESTER-2026-ENTRY-KEY': 'entry',
-    'TESTER-2026-PREMIUM-KEY': 'premium'
+    'DEBO-ENTRY-pizzaman26': 'entry',
+    'DEBO-PREMIUM-pizzaman26': 'premium'
 }
 
 # Load chip set once at startup
@@ -226,7 +226,7 @@ def verify_license():
                 'error': 'Invalid product_id. Must be "entry" or "premium"'
             }), 400
 
-        # TODO: REMOVE BEFORE PRODUCTION - Check for test license keys
+        # Owner test keys
         if license_key in TEST_LICENSE_KEYS:
             test_tier = TEST_LICENSE_KEYS[license_key]
             if test_tier == product_tier or (test_tier == 'premium' and product_tier == 'entry'):
