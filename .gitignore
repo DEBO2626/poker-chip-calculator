@@ -61,3 +61,6 @@ Run
 
 # Backup files in root (keep copies, don't track)
 /pokerchipcounter.py
+
+# Private docs (keep local only)
+START_HERE_NEW_SESSION.md
