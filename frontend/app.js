@@ -50,7 +50,15 @@ function selectMode(mode) {
         document.getElementById('entry-lock').style.display = 'none';
         document.getElementById('auto-form').style.display = 'block';
     } else if (mode === 'custom') {
-        // Check premium status first
+        // No license at all - send to Entry Tier purchase first
+        if (!hasLicense()) {
+            showScreen('auto-screen');
+            document.getElementById('entry-lock').style.display = 'block';
+            document.getElementById('auto-form').style.display = 'none';
+            return;
+        }
+
+        // Has Entry Tier but not Premium - show upgrade option
         if (!isPremium()) {
             showScreen('custom-screen');
             document.getElementById('premium-lock').style.display = 'block';
