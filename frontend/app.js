@@ -733,6 +733,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show mode selection screen by default
     showScreen('mode-selection');
 
+    // Only show Custom Stack card and Premium info if user has Entry Tier or Premium
+    if (hasLicense()) {
+        var customCard = document.getElementById('custom-mode-card');
+        if (customCard) {
+            customCard.style.display = '';
+        }
+        var premiumInfo = document.getElementById('premium-info-text');
+        if (premiumInfo) {
+            premiumInfo.style.display = '';
+        }
+    }
+
     // Register service worker for PWA functionality
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/service-worker.js')
