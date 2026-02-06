@@ -52,7 +52,9 @@ All development phases complete - account setup, backend, frontend, PWA, payment
 - [x] Hide "Upgrade to Premium" for users without Entry Tier
 - [x] Hide Custom Stack mode card for brand new users
 - [x] Fix broken Gumroad Premium link (was gumroad.com/l/poker-calc-premium)
-- [x] Bump service worker cache to v2.4
+- [x] Bump service worker cache to v2.5 (v2.4 was blocking billing JS)
+- [x] Add johndebernardis@gmail.com to License testing list in Play Console
+- [x] Enable License testing checkbox in Play Console Settings
 
 ### Phase 13: Marketing (IN PROGRESS)
 - [x] Facebook friends announcement post
@@ -83,9 +85,9 @@ All development phases complete - account setup, backend, frontend, PWA, payment
 
 ## What's Next
 
-1. Wait for v1.2 review approval (auto-publishes)
-2. Test in-app purchases once live
-3. Service account may take 24-36 hours to fully activate
+1. Re-test in-app purchase (license tester added, wait 15-30 min for propagation)
+2. Wait for v1.2 review approval (auto-publishes)
+3. Verify backend purchase verification (service account may take 24-36 hours)
 4. Monitor purchases in Play Console financial reports
 5. Consider removing Gumroad once Play Billing confirmed working
 6. Continue marketing efforts

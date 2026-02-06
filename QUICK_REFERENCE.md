@@ -21,9 +21,9 @@
 - `backend/pokerchipcounter.py` - Core calculator logic
 
 ### Frontend
-- `frontend/index.html` - Main app (cache v2.4)
+- `frontend/index.html` - Main app (cache v2.5)
 - `frontend/app.js` - JS logic + Digital Goods API + Payment Request API
-- `frontend/service-worker.js` - Offline support (cache v2.4)
+- `frontend/service-worker.js` - Offline support (cache v2.5)
 
 ### Android/TWA
 - `twa-manifest.json` - TWA config (playBilling enabled)
