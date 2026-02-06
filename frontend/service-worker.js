@@ -3,7 +3,7 @@
  * Enables offline functionality and fast loading
  */
 
-const CACHE_NAME = 'poker-calc-v2.7';
+const CACHE_NAME = 'poker-calc-v2.8';
 const urlsToCache = [
   '/',
   '/index.html',

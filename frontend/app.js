@@ -45,12 +45,29 @@ async function initPlayBilling() {
         }
     }
     console.log('[PlayBilling] Digital Goods API not supported - using Gumroad');
-    // Show Gumroad license key entry when Play Billing is not available
+    // Show Gumroad elements only for web users (not in TWA)
+    showGumroadElements();
+    return false;
+}
+
+// Show Gumroad purchase links (only for web users, not TWA)
+function showGumroadElements() {
     var entryKey = document.getElementById('entry-gumroad-key');
     if (entryKey) entryKey.style.display = '';
     var premiumKey = document.getElementById('premium-gumroad-key');
     if (premiumKey) premiumKey.style.display = '';
-    return false;
+    var gumroadLinks = document.querySelectorAll('.gumroad-only');
+    for (var i = 0; i < gumroadLinks.length; i++) {
+        gumroadLinks[i].style.display = '';
+    }
+}
+
+// Hide Gumroad links for TWA/app users
+function hideGumroadElements() {
+    var gumroadLinks = document.querySelectorAll('.gumroad-only');
+    for (var i = 0; i < gumroadLinks.length; i++) {
+        gumroadLinks[i].style.display = 'none';
+    }
 }
 
 // Make a purchase via Google Play
@@ -895,6 +912,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if premium is already activated
     if (isPremium()) {
         console.log('Premium features unlocked');
+    }
+
+    // Detect if running in TWA (standalone display mode = installed app)
+    var isTWA = window.matchMedia('(display-mode: standalone)').matches
+        || document.referrer.includes('android-app://')
+        || ('getDigitalGoodsService' in window);
+    if (isTWA) {
+        console.log('[App] Running in TWA - hiding Gumroad links');
+        hideGumroadElements();
     }
 
     // Initialize Google Play Billing if available
