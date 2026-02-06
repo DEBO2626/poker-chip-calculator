@@ -28,23 +28,33 @@ var playBillingAvailable = false;
 
 // Initialize Digital Goods API (call on page load)
 async function initPlayBilling() {
+    var debugInfo = [];
+    debugInfo.push('display-mode: ' + (window.matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser'));
+    debugInfo.push('referrer: ' + (document.referrer || 'none'));
+    debugInfo.push('getDigitalGoodsService: ' + ('getDigitalGoodsService' in window));
     if ('getDigitalGoodsService' in window) {
         try {
             digitalGoodsService = await window.getDigitalGoodsService(
                 'https://play.google.com/billing'
             );
             playBillingAvailable = true;
+            debugInfo.push('Play Billing: AVAILABLE');
             console.log('[PlayBilling] Google Play Billing available');
+            showDebugBanner(debugInfo.join(' | '), 'green');
 
             // Check for existing purchases on load
             await checkExistingPurchases();
             return true;
         } catch (error) {
+            debugInfo.push('Play Billing ERROR: ' + error.message);
             console.log('[PlayBilling] Not available:', error);
+            showDebugBanner(debugInfo.join(' | '), 'orange');
             return false;
         }
     }
+    debugInfo.push('No Digital Goods API');
     console.log('[PlayBilling] Digital Goods API not supported - using Gumroad');
+    showDebugBanner(debugInfo.join(' | '), 'red');
     // Show Gumroad elements only for web users (not in TWA)
     showGumroadElements();
     return false;
@@ -68,6 +78,19 @@ function hideGumroadElements() {
     for (var i = 0; i < gumroadLinks.length; i++) {
         gumroadLinks[i].style.display = 'none';
     }
+}
+
+// TEMPORARY DEBUG - remove after billing is working
+function showDebugBanner(msg, color) {
+    var banner = document.getElementById('billing-debug');
+    if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'billing-debug';
+        banner.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:8px;font-size:11px;z-index:99999;color:white;word-break:break-all;';
+        document.body.appendChild(banner);
+    }
+    banner.style.backgroundColor = color || 'red';
+    banner.textContent = msg;
 }
 
 // Make a purchase via Google Play
