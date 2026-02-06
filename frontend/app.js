@@ -95,6 +95,20 @@ function showDebugBanner(msg, color) {
 
 // Make a purchase via Google Play
 async function purchaseWithPlay(sku) {
+    // First check if the product exists via getDetails
+    try {
+        if (digitalGoodsService) {
+            var itemDetails = await digitalGoodsService.getDetails([sku]);
+            showDebugBanner('getDetails(' + sku + '): ' + JSON.stringify(itemDetails), 'blue');
+            if (!itemDetails || itemDetails.length === 0) {
+                showDebugBanner('Product ' + sku + ' NOT FOUND in Play Store', 'red');
+                return 'fallback';
+            }
+        }
+    } catch (detailsError) {
+        showDebugBanner('getDetails error: ' + detailsError.message, 'red');
+    }
+
     var paymentMethods = [{
         supportedMethods: 'https://play.google.com/billing',
         data: { sku: sku }
@@ -109,6 +123,7 @@ async function purchaseWithPlay(sku) {
 
     try {
         var request = new PaymentRequest(paymentMethods, paymentDetails);
+        showDebugBanner('Calling request.show() for ' + sku + '...', 'blue');
         var paymentResponse = await request.show();
 
         // details may be a JSON string or object depending on browser
@@ -117,16 +132,18 @@ async function purchaseWithPlay(sku) {
             details = JSON.parse(details);
         }
         var purchaseToken = details.purchaseToken;
-        console.log('[PlayBilling] Got purchase token:', purchaseToken ? 'yes' : 'no');
+        showDebugBanner('Got token: ' + (purchaseToken ? 'yes' : 'no') + ' - verifying...', 'blue');
 
         // Verify purchase on backend
         var verified = await verifyPlayPurchase(purchaseToken, sku);
         if (verified) {
             // Do NOT consume - these are non-consumable one-time purchases
             await paymentResponse.complete('success');
+            showDebugBanner('Purchase SUCCESS!', 'green');
             return true;
         } else {
             await paymentResponse.complete('fail');
+            showDebugBanner('Backend verification FAILED', 'red');
             return false;
         }
     } catch (error) {
@@ -134,6 +151,7 @@ async function purchaseWithPlay(sku) {
             console.log('[PlayBilling] User cancelled purchase');
             return false;
         }
+        showDebugBanner('Purchase ERROR: ' + error.name + ': ' + error.message, 'red');
         console.log('[PlayBilling] Not supported, using fallback:', error.message);
         return 'fallback';
     }
