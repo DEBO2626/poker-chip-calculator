@@ -70,12 +70,19 @@ async function purchaseWithPlay(sku) {
     try {
         var request = new PaymentRequest(paymentMethods, paymentDetails);
         var paymentResponse = await request.show();
-        var purchaseToken = paymentResponse.details.purchaseToken;
+
+        // details may be a JSON string or object depending on browser
+        var details = paymentResponse.details;
+        if (typeof details === 'string') {
+            details = JSON.parse(details);
+        }
+        var purchaseToken = details.purchaseToken;
+        console.log('[PlayBilling] Got purchase token:', purchaseToken ? 'yes' : 'no');
 
         // Verify purchase on backend
         var verified = await verifyPlayPurchase(purchaseToken, sku);
         if (verified) {
-            await digitalGoodsService.consume(purchaseToken);
+            // Do NOT consume - these are non-consumable one-time purchases
             await paymentResponse.complete('success');
             return true;
         } else {
@@ -87,7 +94,8 @@ async function purchaseWithPlay(sku) {
             console.log('[PlayBilling] User cancelled purchase');
         } else {
             console.error('[PlayBilling] Purchase error:', error);
-            alert('Purchase failed. Please try again.');
+            alert('Play Billing error: ' + error.message + '\n\nFalling back to license key entry.');
+            return 'fallback';
         }
         return false;
     }
@@ -138,33 +146,45 @@ async function verifyPlayPurchase(purchaseToken, sku) {
 // Purchase Entry Tier - tries Play Billing first, falls back to Gumroad
 async function purchaseEntryTier() {
     if (playBillingAvailable) {
-        var success = await purchaseWithPlay('entry_tier');
-        if (success) {
+        var result = await purchaseWithPlay('entry_tier');
+        if (result === true) {
             localStorage.setItem('licenseKey', 'play-purchase');
             localStorage.setItem('productTier', 'entry');
             localStorage.setItem('purchaseSource', 'play');
             alert('Entry Tier activated! You now have access to the calculator.');
             location.reload();
+            return;
+        }
+        if (result === 'fallback') {
+            // Play Billing failed - show Gumroad key entry as fallback
+            showEntryLicenseDialog();
+            return;
         }
     } else {
-        window.open('https://debernardis6.gumroad.com/l/bvzrd', '_blank');
+        showEntryLicenseDialog();
     }
 }
 
 // Purchase Premium Tier - tries Play Billing first, falls back to Gumroad
 async function purchasePremiumTier() {
     if (playBillingAvailable) {
-        var success = await purchaseWithPlay('premium_tier');
-        if (success) {
+        var result = await purchaseWithPlay('premium_tier');
+        if (result === true) {
             localStorage.setItem('isPremium', 'true');
             localStorage.setItem('licenseKey', 'play-purchase');
             localStorage.setItem('productTier', 'premium');
             localStorage.setItem('purchaseSource', 'play');
             alert('Premium activated! You now have access to all features.');
             location.reload();
+            return;
+        }
+        if (result === 'fallback') {
+            // Play Billing failed - show Gumroad key entry as fallback
+            showPremiumDialog();
+            return;
         }
     } else {
-        window.open('https://debernardis6.gumroad.com/l/eepjed', '_blank');
+        showPremiumDialog();
     }
 }
 
