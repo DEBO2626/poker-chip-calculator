@@ -20,6 +20,155 @@ function hasLicense() {
 }
 
 // ============================================================================
+// GOOGLE PLAY BILLING (Digital Goods API + Payment Request API)
+// ============================================================================
+
+var digitalGoodsService = null;
+var playBillingAvailable = false;
+
+// Initialize Digital Goods API (call on page load)
+async function initPlayBilling() {
+    if ('getDigitalGoodsService' in window) {
+        try {
+            digitalGoodsService = await window.getDigitalGoodsService(
+                'https://play.google.com/billing'
+            );
+            playBillingAvailable = true;
+            console.log('[PlayBilling] Google Play Billing available');
+
+            // Check for existing purchases on load
+            await checkExistingPurchases();
+            return true;
+        } catch (error) {
+            console.log('[PlayBilling] Not available:', error);
+            return false;
+        }
+    }
+    console.log('[PlayBilling] Digital Goods API not supported - using Gumroad');
+    // Show Gumroad license key entry when Play Billing is not available
+    var entryKey = document.getElementById('entry-gumroad-key');
+    if (entryKey) entryKey.style.display = '';
+    var premiumKey = document.getElementById('premium-gumroad-key');
+    if (premiumKey) premiumKey.style.display = '';
+    return false;
+}
+
+// Make a purchase via Google Play
+async function purchaseWithPlay(sku) {
+    var paymentMethods = [{
+        supportedMethods: 'https://play.google.com/billing',
+        data: { sku: sku }
+    }];
+
+    var paymentDetails = {
+        total: {
+            label: 'Total',
+            amount: { currency: 'USD', value: '0' }
+        }
+    };
+
+    try {
+        var request = new PaymentRequest(paymentMethods, paymentDetails);
+        var paymentResponse = await request.show();
+        var purchaseToken = paymentResponse.details.purchaseToken;
+
+        // Verify purchase on backend
+        var verified = await verifyPlayPurchase(purchaseToken, sku);
+        if (verified) {
+            await digitalGoodsService.consume(purchaseToken);
+            await paymentResponse.complete('success');
+            return true;
+        } else {
+            await paymentResponse.complete('fail');
+            return false;
+        }
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            console.log('[PlayBilling] User cancelled purchase');
+        } else {
+            console.error('[PlayBilling] Purchase error:', error);
+            alert('Purchase failed. Please try again.');
+        }
+        return false;
+    }
+}
+
+// Check for existing purchases (on app load)
+async function checkExistingPurchases() {
+    if (!digitalGoodsService) return;
+    try {
+        var purchases = await digitalGoodsService.listPurchases();
+        for (var i = 0; i < purchases.length; i++) {
+            var purchase = purchases[i];
+            if (purchase.itemId === 'premium_tier') {
+                localStorage.setItem('isPremium', 'true');
+                localStorage.setItem('licenseKey', 'play-purchase');
+                localStorage.setItem('productTier', 'premium');
+                localStorage.setItem('purchaseSource', 'play');
+            } else if (purchase.itemId === 'entry_tier') {
+                localStorage.setItem('licenseKey', 'play-purchase');
+                localStorage.setItem('productTier', 'entry');
+                localStorage.setItem('purchaseSource', 'play');
+            }
+        }
+    } catch (error) {
+        console.error('[PlayBilling] Error checking purchases:', error);
+    }
+}
+
+// Send purchase token to backend for verification
+async function verifyPlayPurchase(purchaseToken, sku) {
+    try {
+        var response = await fetch(API_BASE_URL + '/api/verify-play-purchase', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                purchase_token: purchaseToken,
+                product_id: sku
+            })
+        });
+        var data = await response.json();
+        return data.success && data.valid;
+    } catch (error) {
+        console.error('[PlayBilling] Backend verification error:', error);
+        return false;
+    }
+}
+
+// Purchase Entry Tier - tries Play Billing first, falls back to Gumroad
+async function purchaseEntryTier() {
+    if (playBillingAvailable) {
+        var success = await purchaseWithPlay('entry_tier');
+        if (success) {
+            localStorage.setItem('licenseKey', 'play-purchase');
+            localStorage.setItem('productTier', 'entry');
+            localStorage.setItem('purchaseSource', 'play');
+            alert('Entry Tier activated! You now have access to the calculator.');
+            location.reload();
+        }
+    } else {
+        window.open('https://debernardis6.gumroad.com/l/bvzrd', '_blank');
+    }
+}
+
+// Purchase Premium Tier - tries Play Billing first, falls back to Gumroad
+async function purchasePremiumTier() {
+    if (playBillingAvailable) {
+        var success = await purchaseWithPlay('premium_tier');
+        if (success) {
+            localStorage.setItem('isPremium', 'true');
+            localStorage.setItem('licenseKey', 'play-purchase');
+            localStorage.setItem('productTier', 'premium');
+            localStorage.setItem('purchaseSource', 'play');
+            alert('Premium activated! You now have access to all features.');
+            location.reload();
+        }
+    } else {
+        window.open('https://debernardis6.gumroad.com/l/eepjed', '_blank');
+    }
+}
+
+// ============================================================================
 // SCREEN NAVIGATION
 // ============================================================================
 
@@ -729,6 +878,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isPremium()) {
         console.log('Premium features unlocked');
     }
+
+    // Initialize Google Play Billing if available
+    initPlayBilling().then(function() {
+        // Re-check license state after Play Billing init (may have found purchases)
+        if (hasLicense()) {
+            var card = document.getElementById('custom-mode-card');
+            if (card) card.style.display = '';
+            var info = document.getElementById('premium-info-text');
+            if (info) info.style.display = '';
+        }
+    });
 
     // Show mode selection screen by default
     showScreen('mode-selection');

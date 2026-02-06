@@ -7,7 +7,10 @@ from flask import Flask, request, jsonify, send_from_directory, make_response
 from flask_cors import CORS
 import os
 import sys
+import json
 import requests
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
 
 # Import the calculator functions
 from pokerchipcounter import (
@@ -26,6 +29,21 @@ GUMROAD_PRODUCT_IDS = {
     'entry': os.environ.get('GUMROAD_ENTRY_PRODUCT_ID', 'FCZgbXwUtCUZICnWigdugA=='),
     'premium': os.environ.get('GUMROAD_PREMIUM_PRODUCT_ID', '7IdKPVIR9R6Fre-xhUzXJQ==')
 }
+
+# Google Play Billing Configuration
+PLAY_PACKAGE_NAME = 'com.onrender.poker_chip_calculator.twa'
+PLAY_CREDENTIALS_JSON = os.environ.get('GOOGLE_PLAY_CREDENTIALS', '')
+
+def get_play_service():
+    """Create Google Play Developer API service for purchase verification"""
+    if not PLAY_CREDENTIALS_JSON:
+        return None
+    creds_dict = json.loads(PLAY_CREDENTIALS_JSON)
+    credentials = service_account.Credentials.from_service_account_info(
+        creds_dict,
+        scopes=['https://www.googleapis.com/auth/androidpublisher']
+    )
+    return build('androidpublisher', 'v3', credentials=credentials)
 
 # Owner test keys - personal use only
 TEST_LICENSE_KEYS = {
@@ -292,6 +310,71 @@ def verify_license():
         return jsonify({
             'success': False,
             'error': f'Unexpected error: {str(e)}'
+        }), 500
+
+
+@app.route('/api/verify-play-purchase', methods=['POST'])
+def verify_play_purchase():
+    """
+    Verify a Google Play in-app purchase
+
+    Expected JSON body:
+    {
+        "purchase_token": "token-from-play-billing",
+        "product_id": "entry_tier" or "premium_tier"
+    }
+    """
+    try:
+        data = request.json
+        purchase_token = data.get('purchase_token')
+        product_id = data.get('product_id')
+
+        if not purchase_token or not product_id:
+            return jsonify({
+                'success': False,
+                'error': 'Missing purchase_token or product_id'
+            }), 400
+
+        service = get_play_service()
+        if not service:
+            return jsonify({
+                'success': False,
+                'error': 'Google Play verification not configured'
+            }), 500
+
+        result = service.purchases().products().get(
+            packageName=PLAY_PACKAGE_NAME,
+            productId=product_id,
+            token=purchase_token
+        ).execute()
+
+        # purchaseState: 0 = purchased, 1 = canceled, 2 = pending
+        if result.get('purchaseState') == 0:
+            # Acknowledge the purchase if not already acknowledged
+            if result.get('acknowledgementState') == 0:
+                service.purchases().products().acknowledge(
+                    packageName=PLAY_PACKAGE_NAME,
+                    productId=product_id,
+                    token=purchase_token
+                ).execute()
+
+            tier = 'premium' if product_id == 'premium_tier' else 'entry'
+            return jsonify({
+                'success': True,
+                'valid': True,
+                'product_tier': tier
+            })
+        else:
+            return jsonify({
+                'success': True,
+                'valid': False,
+                'error': 'Purchase not valid'
+            })
+
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': 'Verification error: ' + str(e)
         }), 500
 
 
