@@ -92,12 +92,10 @@ async function purchaseWithPlay(sku) {
     } catch (error) {
         if (error.name === 'AbortError') {
             console.log('[PlayBilling] User cancelled purchase');
-        } else {
-            console.error('[PlayBilling] Purchase error:', error);
-            alert('Play Billing error: ' + error.message + '\n\nFalling back to license key entry.');
-            return 'fallback';
+            return false;
         }
-        return false;
+        console.log('[PlayBilling] Not supported, using fallback:', error.message);
+        return 'fallback';
     }
 }
 
