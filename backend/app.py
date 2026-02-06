@@ -85,10 +85,21 @@ def serve_frontend():
 @app.route('/.well-known/assetlinks.json')
 def serve_assetlinks():
     """Serve Digital Asset Links for TWA verification"""
-    response = make_response(send_from_directory(
-        os.path.join(app.static_folder, '.well-known'), 'assetlinks.json'))
+    assetlinks = [{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.onrender.poker_chip_calculator.twa",
+            "sha256_cert_fingerprints": [
+                "D0:BC:61:5C:3F:CD:A2:CC:29:1D:17:B3:74:76:BA:EF:9D:9D:49:9F:03:27:CE:99:1E:55:2A:1D:33:9F:00:3F",
+                "1E:17:78:69:A4:05:46:0B:E9:FF:42:A7:DC:83:A0:B6:DE:42:B3:7B:A1:55:67:38:42:CC:E3:21:D8:2F:BC:30"
+            ]
+        }
+    }]
+    response = make_response(json.dumps(assetlinks))
     response.headers['Content-Type'] = 'application/json'
-    response.headers['Cache-Control'] = 'public, max-age=3600'
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Access-Control-Allow-Origin'] = '*'
     return response
 
 

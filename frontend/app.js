@@ -29,33 +29,54 @@ var playBillingAvailable = false;
 // Initialize Digital Goods API (call on page load)
 async function initPlayBilling() {
     var debugInfo = [];
-    debugInfo.push('display-mode: ' + (window.matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser'));
-    debugInfo.push('referrer: ' + (document.referrer || 'none'));
-    debugInfo.push('getDigitalGoodsService: ' + ('getDigitalGoodsService' in window));
+    var isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    var hasAndroidRef = document.referrer.includes('android-app://');
+    debugInfo.push('mode:' + (isStandalone ? 'standalone' : 'browser'));
+    debugInfo.push('ref:' + (hasAndroidRef ? 'android' : 'web'));
+    debugInfo.push('dgAPI:' + ('getDigitalGoodsService' in window));
+
+    // Try Digital Goods API first
     if ('getDigitalGoodsService' in window) {
         try {
             digitalGoodsService = await window.getDigitalGoodsService(
                 'https://play.google.com/billing'
             );
             playBillingAvailable = true;
-            debugInfo.push('Play Billing: AVAILABLE');
-            console.log('[PlayBilling] Google Play Billing available');
+            debugInfo.push('DG:OK');
             showDebugBanner(debugInfo.join(' | '), 'green');
-
-            // Check for existing purchases on load
             await checkExistingPurchases();
             return true;
         } catch (error) {
-            debugInfo.push('Play Billing ERROR: ' + error.message);
-            console.log('[PlayBilling] Not available:', error);
-            showDebugBanner(debugInfo.join(' | '), 'orange');
-            return false;
+            debugInfo.push('DG err:' + error.message);
+            console.log('[PlayBilling] DG API failed:', error);
         }
     }
-    debugInfo.push('No Digital Goods API');
-    console.log('[PlayBilling] Digital Goods API not supported - using Gumroad');
+
+    // Fallback: try Payment Request API directly (works even without DG API)
+    try {
+        var testMethods = [{
+            supportedMethods: 'https://play.google.com/billing',
+            data: { sku: 'entry_tier' }
+        }];
+        var testDetails = {
+            total: { label: 'Test', amount: { currency: 'USD', value: '0' } }
+        };
+        var testRequest = new PaymentRequest(testMethods, testDetails);
+        var canMake = await testRequest.canMakePayment();
+        debugInfo.push('canMakePayment:' + canMake);
+        if (canMake) {
+            playBillingAvailable = true;
+            debugInfo.push('PR API:OK');
+            showDebugBanner(debugInfo.join(' | '), 'green');
+            return true;
+        }
+    } catch (prError) {
+        debugInfo.push('PR err:' + prError.message);
+    }
+
+    debugInfo.push('NO BILLING');
+    console.log('[PlayBilling] Not available - using Gumroad');
     showDebugBanner(debugInfo.join(' | '), 'red');
-    // Show Gumroad elements only for web users (not in TWA)
     showGumroadElements();
     return false;
 }
