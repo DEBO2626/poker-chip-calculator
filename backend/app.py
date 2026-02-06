@@ -82,6 +82,16 @@ def serve_frontend():
     return response
 
 
+@app.route('/.well-known/assetlinks.json')
+def serve_assetlinks():
+    """Serve Digital Asset Links for TWA verification"""
+    response = make_response(send_from_directory(
+        os.path.join(app.static_folder, '.well-known'), 'assetlinks.json'))
+    response.headers['Content-Type'] = 'application/json'
+    response.headers['Cache-Control'] = 'public, max-age=3600'
+    return response
+
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint - verify API is running"""

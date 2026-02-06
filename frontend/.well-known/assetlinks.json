@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.onrender.poker_chip_calculator.twa",
+    "sha256_cert_fingerprints": [
+      "1E:17:78:69:A4:05:46:0B:E9:FF:42:A7:DC:83:A0:B6:DE:42:B3:7B:A1:55:67:38:42:CC:E3:21:D8:2F:BC:30"
+    ]
+  }
+}]
