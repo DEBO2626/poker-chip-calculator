@@ -104,6 +104,15 @@ function hideGumroadElements() {
 // Debug billing info - console only (no visible banner for users)
 function showDebugBanner(msg, color) {
     console.log('[Billing ' + (color || 'info') + '] ' + msg);
+    var banner = document.getElementById('billing-debug');
+    if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'billing-debug';
+        banner.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:8px;font-size:11px;z-index:99999;color:white;word-break:break-all;';
+        document.body.appendChild(banner);
+    }
+    banner.style.backgroundColor = color || 'red';
+    banner.textContent = msg;
 }
 
 // Make a purchase via Google Play
