@@ -92,7 +92,7 @@ def serve_assetlinks():
                 "namespace": "android_app",
                 "package_name": "com.onrender.poker_chip_calculator.twa",
                 "sha256_cert_fingerprints": [
-                    "D0:BC:61:5C:3F:CD:A2:CC:29:1D:17:B3:74:76:BA:EF:9D:9D:49:9F:03:27:CE:99:1E:55:2A:1D:33:9F:00:3F"
+                    "D0:BC:61:5C:3F:CD:A2:CC:29:1D:17:B3:74:76:BA:EF:9D:9D:49:9F:03:27:CE:99:1E:55:2A:1D:33:9F:0D:3F"
                 ]
             }
         },
