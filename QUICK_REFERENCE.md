@@ -1,7 +1,7 @@
 # Quick Reference - Poker Chip Calculator
 
-**Version:** 1.3.1 (versionCode 5) in review
-**Status:** LIVE ON GOOGLE PLAY - TWA billing fix in review
+**Version:** 1.3.2 (versionCode 6) LIVE
+**Status:** LIVE ON GOOGLE PLAY - ALL BILLING WORKING
 **Last Updated:** 2026-02-06
 **Live URL:** https://poker-chip-calculator.onrender.com
 
@@ -23,11 +23,11 @@
 ### Frontend
 - `frontend/index.html` - Main app
 - `frontend/app.js` - JS logic + Digital Goods API + Payment Request API
-- `frontend/service-worker.js` - Offline support (cache v2.12)
+- `frontend/service-worker.js` - Offline support (cache v2.17)
 
 ### Android/TWA
 - `twa-manifest.json` - TWA config (playBilling enabled)
-- `app/build.gradle` - v1.3.1, versionCode 5
+- `app/build.gradle` - v1.3.2, versionCode 6
 - `app/src/main/AndroidManifest.xml` - PaymentActivity + PaymentService
 - `app/src/main/java/.../DelegationService.java` - DigitalGoodsRequestHandler
 
@@ -105,6 +105,7 @@ gradlew bundleRelease
 | 1.1 | 2 | 2026-01-14 | Native splash, onboarding, start button |
 | 1.2 | 3 | 2026-02-06 | Google Play Billing, purchase flow fixes |
 | 1.3.1 | 5 | 2026-02-06 | TWA billing debug fixes, remove debug banner |
+| 1.3.2 | 6 | 2026-02-06 | Explicit intent, correct fingerprint, BILLING WORKING |
 
 ---
 
@@ -116,7 +117,7 @@ gradlew bundleRelease
 | 10. Play Store Submit | Complete - LIVE |
 | 11. Google Play Billing | Complete |
 | 12. Purchase Flow Fixes | Complete |
-| 13. TWA Verification Fix | In Progress - v1.3.1 in review |
+| 13. TWA Verification Fix | Complete - BILLING WORKING |
 | 14. Marketing | In Progress |
 
 ---

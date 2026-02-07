@@ -1,6 +1,6 @@
 # PROJECT STATUS - Poker Chip Calculator
 
-## Overall Progress: LIVE + TWA Billing Fix In Review
+## Overall Progress: LIVE - ALL BILLING WORKING
 
 **Last Updated:** 2026-02-06
 
@@ -9,11 +9,11 @@
 ## Current Status
 
 - App is LIVE on Google Play Store (published Feb 5, 2026)
-- 2 installs, 17 device acquisitions, 15 MAU
-- v1.3.1 (versionCode 5) submitted for review - TWA billing debug fixes
-- In-app products active: entry_tier ($0.99), premium_tier ($2.99)
-- UptimeRobot set up to keep Render warm (prevents cold start TWA verification failures)
-- Debug banner removed from frontend - Gumroad fallback working for purchases
+- v1.3.2 (versionCode 6) LIVE on Play Store
+- BOTH PURCHASES WORKING: Entry Tier ($0.99) and Premium ($2.99) via Google Play Billing
+- Tested on 2 phones - confirmed working
+- Debug banner removed (console-only), cache v2.17
+- UptimeRobot keeping Render warm (prevents cold start TWA verification failures)
 - Backend deployed with Google Play purchase verification
 
 ---
@@ -57,18 +57,21 @@ All development phases complete - account setup, backend, frontend, PWA, payment
 - [x] Add johndebernardis@gmail.com to License testing list in Play Console
 - [x] Enable License testing checkbox in Play Console Settings
 
-### Phase 13: TWA Verification & Billing Fix (IN PROGRESS)
+### Phase 13: TWA Verification & Billing Fix (100% COMPLETE)
 - [x] Diagnose TWA verification failure (URL bar visible = Chrome Custom Tab, not verified TWA)
-- [x] Confirm assetlinks.json correct (Google API returns both fingerprints linked:true)
-- [x] Identify root cause: Render free tier cold starts (22s+) cause Chrome TWA verification timeout
-- [x] Set up UptimeRobot to ping server every 5 min (server never sleeps now)
-- [x] Remove debug banner from frontend (was showing red technical error to users)
-- [x] Bump service worker cache to v2.12
-- [x] Build v1.3.1 (versionCode 5) and submit to Play Console Production
-- [ ] Wait for v1.3.1 review approval
-- [ ] Test billing with Play Store install + cleared Chrome data + warm server
-- [ ] If billing works: remove Gumroad fallback code
-- [ ] If billing still fails: investigate custom launch flow (SplashActivity -> StartActivity -> LauncherActivity)
+- [x] Confirm assetlinks.json format correct (Google API returns both fingerprints linked:true)
+- [x] Identify root cause 1: Render free tier cold starts - set up UptimeRobot (every 5 min)
+- [x] Identify root cause 2: ACTION_VIEW intent - changed to explicit class intent
+- [x] Identify root cause 3: Internal App Sharing uses different test certificate - must test via Play Store
+- [x] Identify ROOT CAUSE 4: App signing key fingerprint had 1 byte wrong (00 vs 0D)
+  - Found via wireless ADB: `adb shell pm get-app-links com.onrender.poker_chip_calculator.twa`
+  - Device reported ...9F:0D:3F, assetlinks.json had ...9F:00:3F
+- [x] Fix fingerprint in assetlinks.json
+- [x] TWA VERIFIED! No URL bar, DG:OK green banner!
+- [x] Build v1.3.2 (versionCode 6) with explicit intent + correct fingerprint
+- [x] Both purchases confirmed working (Entry Tier + Premium) on 2 phones
+- [x] Debug banner removed (console-only)
+- [x] Service worker cache v2.17
 
 ### Phase 14: Marketing (IN PROGRESS)
 - [x] Facebook friends announcement post
@@ -85,7 +88,8 @@ All development phases complete - account setup, backend, frontend, PWA, payment
 | 1.0 | 1 | 2026-01-13 | Initial TWA release |
 | 1.1 | 2 | 2026-01-14 | Native splash, onboarding, start button |
 | 1.2 | 3 | 2026-02-06 | Google Play Billing, purchase flow fixes |
-| 1.3.1 | 5 | 2026-02-06 | TWA billing debug fixes, remove debug banner (in review) |
+| 1.3.1 | 5 | 2026-02-06 | TWA billing debug fixes, remove debug banner |
+| 1.3.2 | 6 | 2026-02-06 | Explicit intent fix, correct fingerprint, BILLING WORKING |
 
 ---
 
@@ -100,20 +104,17 @@ All development phases complete - account setup, backend, frontend, PWA, payment
 
 ## What's Next
 
-1. Wait for v1.3.1 review approval (auto-publishes)
-2. Uninstall app, clear Chrome data, install from Play Store
-3. Test if URL bar is gone (TWA verified) and billing works
-4. If billing works: clean up Gumroad fallback, celebrate
-5. If billing still fails: investigate custom activity launch flow
-6. Continue marketing efforts
+1. Continue marketing efforts (Reddit, poker forums)
+2. Monitor reviews and metrics
+3. Consider removing Gumroad fallback once Play Billing confirmed stable
 
-## Known Issues
+## Known Issues (All Resolved)
 
-- **TWA Verification**: Chrome shows URL bar because assetlinks.json fetch timed out during cold start.
-  UptimeRobot now keeps server warm. Need Play Store install (not Internal App Sharing) for proper Android domain verification.
-- **Render Free Tier**: 22+ second cold starts. UptimeRobot pings every 5 min to prevent sleep.
-- **Custom Launch Flow**: SplashActivity -> StartActivity -> ACTION_VIEW -> LauncherActivity.
-  May not properly establish TWA session. If billing still fails after warm server + Play Store install,
-  this is the next thing to investigate.
+- **TWA Verification**: RESOLVED. Root cause was wrong fingerprint byte (00 vs 0D) in assetlinks.json.
+  Also fixed: ACTION_VIEW changed to explicit class intent, UptimeRobot keeps server warm.
+- **Purchase Button**: RESOLVED. May need a second tap on first attempt (getDetails slight delay).
+- **Render Free Tier**: UptimeRobot pings every 5 min to prevent 22+ second cold starts.
+- **Internal App Sharing**: Uses a THIRD test certificate - CANNOT test TWA via Internal App Sharing.
+- **Service Worker Caching**: Existing users need to close/reopen app to get new version. New users unaffected.
 
 ---
