@@ -117,9 +117,11 @@ function showDebugBanner(msg, color) {
 
 // Make a purchase via Google Play
 async function purchaseWithPlay(sku) {
+    showDebugBanner('Starting purchase for ' + sku + '...', 'blue');
     // First check if the product exists via getDetails
     try {
         if (digitalGoodsService) {
+            showDebugBanner('Calling getDetails(' + sku + ')...', 'blue');
             var itemDetails = await digitalGoodsService.getDetails([sku]);
             showDebugBanner('getDetails(' + sku + '): ' + JSON.stringify(itemDetails), 'blue');
             if (!itemDetails || itemDetails.length === 0) {
