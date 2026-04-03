@@ -279,26 +279,12 @@ function showScreen(screenId) {
 
 function selectMode(mode) {
     if (mode === 'auto') {
-        // Check if user has Entry Tier or Premium license
-        if (!hasLicense()) {
-            showScreen('auto-screen');
-            document.getElementById('entry-lock').style.display = 'block';
-            document.getElementById('auto-form').style.display = 'none';
-            return;
-        }
+        // Auto-calculate is free for everyone
         showScreen('auto-screen');
         document.getElementById('entry-lock').style.display = 'none';
         document.getElementById('auto-form').style.display = 'block';
     } else if (mode === 'custom') {
-        // No license at all - send to Entry Tier purchase first
-        if (!hasLicense()) {
-            showScreen('auto-screen');
-            document.getElementById('entry-lock').style.display = 'block';
-            document.getElementById('auto-form').style.display = 'none';
-            return;
-        }
-
-        // Has Entry Tier but not Premium - show upgrade option
+        // Custom mode requires Premium
         if (!isPremium()) {
             showScreen('custom-screen');
             document.getElementById('premium-lock').style.display = 'block';
@@ -980,30 +966,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize Google Play Billing if available
-    initPlayBilling().then(function() {
-        // Re-check license state after Play Billing init (may have found purchases)
-        if (hasLicense()) {
-            var card = document.getElementById('custom-mode-card');
-            if (card) card.style.display = '';
-            var info = document.getElementById('premium-info-text');
-            if (info) info.style.display = '';
-        }
-    });
+    initPlayBilling();
 
     // Show mode selection screen by default
     showScreen('mode-selection');
-
-    // Only show Custom Stack card and Premium info if user has Entry Tier or Premium
-    if (hasLicense()) {
-        var customCard = document.getElementById('custom-mode-card');
-        if (customCard) {
-            customCard.style.display = '';
-        }
-        var premiumInfo = document.getElementById('premium-info-text');
-        if (premiumInfo) {
-            premiumInfo.style.display = '';
-        }
-    }
 
     // Register service worker for PWA functionality
     if ('serviceWorker' in navigator) {

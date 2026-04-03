@@ -57,11 +57,11 @@
                     </div>
                     <h3>Auto-Calculate</h3>
                     <p>Based on tournament duration and blind structure</p>
-                    <span class="mode-badge recommended">Entry Tier</span>
+                    <span class="mode-badge recommended">Free</span>
                 </button>
 
-                <!-- Mode 2: Custom Stack - hidden until Entry Tier purchased -->
-                <button class="mode-card" id="custom-mode-card" onclick="selectMode('custom')" style="display: none;">
+                <!-- Mode 2: Custom Stack - Premium only -->
+                <button class="mode-card" id="custom-mode-card" onclick="selectMode('custom')">
                     <div class="mode-icon-stack premium-stack">
                         <img src="/assets/chip-500-purple.png?v=2.4" alt="Purple Chip" class="mode-chip chip-bottom">
                         <img src="/assets/chip-500-purple.png?v=2.4" alt="Purple Chip" class="mode-chip chip-middle">
@@ -74,8 +74,8 @@
             </div>
 
             <div class="info-box">
-                <p><strong>Entry ($0.99):</strong> Auto-calculate mode with default chip set</p>
-                <p id="premium-info-text" style="display: none;"><strong>Premium (+$2.99):</strong> Custom stacks + save chip sets + export</p>
+                <p><strong>Free:</strong> Auto-calculate mode with default chip set</p>
+                <p id="premium-info-text"><strong>Premium ($2.99):</strong> Custom stacks + save chip sets + export</p>
             </div>
         </div>
     </div>
